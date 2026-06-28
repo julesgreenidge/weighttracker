@@ -899,10 +899,13 @@ function drawCharts() {
 
   // --- 7-DAY AVERAGE ---
   const { labels: l7a, datasets: d7a, min: min7a, max: max7a } = buildDatasets7Avg();
-  charts.c7avg = new Chart($('chart7avg'), { type: 'line', data: { labels: l7a, datasets: d7a }, options: makeChartOptions(min7a, max7a, {}, 0.5) });
+  const allVals7a = [...d7a.filter(d => d.label==='This week'||d.label==='Same week last week').flatMap(d => d.data)].filter(v => v!=null);
+  const adj7aMin = Math.min(...allVals7a);
+  const adj7aMax = Math.max(...allVals7a);
+  charts.c7avg = new Chart($('chart7avg'), { type: 'line', data: { labels: l7a, datasets: d7a }, options: makeChartOptions(adj7aMin, adj7aMax, {}, 0.2) });
 
   const { labels: l28, datasets: d28, min: min28, max: max28 } = buildDatasets28();
-  charts.c28 = new Chart($('chart28'), { type: 'line', data: { labels: l28, datasets: d28 }, options: makeChartOptions(min28, max28) });
+  charts.c28 = new Chart($('chart28'), { type: 'line', data: { labels: l28, datasets: d28 }, options: makeChartOptions(min28, max28, {}, 0.5) });
 
   const avgDayWeekRaw = buildDayOfWeekData(false);
   const avgDayWeekLabels = avgDayWeekRaw.map(r => r.day);
@@ -920,8 +923,9 @@ function drawCharts() {
   // --- BMI ---
   const { labels: lBmi7, thisWeekBmi, lastWeekBmi, min: minBmi7, max: maxBmi7 } = buildDatasetsBmi7();
   const bmi7pad = 0.5;
-  const bmi7Min = parseFloat((minBmi7 - 0.25).toFixed(2));
-  const bmi7Max = parseFloat((maxBmi7 + 0.25).toFixed(2));
+  const allBmi7Vals = [...thisWeekBmi, ...lastWeekBmi].filter(v => v != null);
+  const bmi7Min = parseFloat((Math.min(...allBmi7Vals) - 0.1).toFixed(2));
+  const bmi7Max = parseFloat((Math.max(...allBmi7Vals) + 0.1).toFixed(2));
   const bmi7BandDatasets = [
     { label: '_red', data: Array(lBmi7.length).fill(50), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: 30 }, backgroundColor: `rgba(226,75,74,${document.documentElement.getAttribute('data-theme')==='dark'?0.35:0.15})` },
     { label: '_amber', data: Array(lBmi7.length).fill(30), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: 25 }, backgroundColor: `rgba(186,117,23,${document.documentElement.getAttribute('data-theme')==='dark'?0.35:0.15})` },
@@ -938,8 +942,8 @@ function drawCharts() {
   });
 
   const { labels: lBmi28, bmiVals: bmiVals28 } = buildDatasetsBmi28();
-  const minBmi28 = parseFloat((Math.min(...bmiVals28.filter(Boolean)) - 1).toFixed(2));
-  const maxBmi28 = parseFloat((Math.max(...bmiVals28.filter(Boolean)) + 1).toFixed(2));
+  const minBmi28 = parseFloat((Math.min(...bmiVals28.filter(Boolean)) - 0.5).toFixed(2));
+  const maxBmi28 = parseFloat((Math.max(...bmiVals28.filter(Boolean)) + 0.5).toFixed(2));
   charts.cBmi28 = new Chart($('chartBmi28'), {
     type: 'line',
     data: { labels: lBmi28, datasets: [
@@ -958,8 +962,8 @@ function drawCharts() {
   charts.cBmiDayYest = new Chart($('chartBmiDayYest'), { type: 'bar', data: { labels: days, datasets: [{ data: bmiDayYest, backgroundColor: barColors(bmiDayYest), borderRadius: 4 }] }, options: barOpts(bmiDayYest) });
 
   const { labels: lBmiAll, bmiVals: bmiValsAll } = buildDatasetsBmiAll();
-  const minBmiAll = parseFloat((Math.min(...bmiValsAll.filter(Boolean)) - 2).toFixed(2));
-  const maxBmiAll = parseFloat((Math.max(...bmiValsAll.filter(Boolean)) + 2).toFixed(2));
+  const minBmiAll = parseFloat((Math.min(...bmiValsAll.filter(Boolean)) - 1).toFixed(2));
+  const maxBmiAll = parseFloat((Math.max(...bmiValsAll.filter(Boolean)) + 1).toFixed(2));
   charts.cBmiAll = new Chart($('chartBmiAll'), {
     type: 'line',
     data: { labels: lBmiAll, datasets: [
@@ -973,10 +977,13 @@ function drawCharts() {
 
   // --- DAILY WEIGHT ---
   const { labels: l7d, datasets: d7d, min: min7d, max: max7d } = buildDatasets7Daily();
-  charts.c7daily = new Chart($('chart7daily'), { type: 'line', data: { labels: l7d, datasets: d7d }, options: makeChartOptions(min7d, max7d, {}, 0.5) });
+  const allVals7d = [...d7d.filter(d => d.label==='This week'||d.label==='Same day last week').flatMap(d => d.data)].filter(v => v!=null);
+  const adj7dMin = Math.min(...allVals7d);
+  const adj7dMax = Math.max(...allVals7d);
+  charts.c7daily = new Chart($('chart7daily'), { type: 'line', data: { labels: l7d, datasets: d7d }, options: makeChartOptions(adj7dMin, adj7dMax, {}, 0.2) });
 
   const { labels: lD28, datasets: dD28, min: minD28, max: maxD28 } = buildDatasetsDaily28();
-  charts.cDaily28 = new Chart($('chartDaily28'), { type: 'line', data: { labels: lD28, datasets: dD28 }, options: makeChartOptions(minD28, maxD28) });
+  charts.cDaily28 = new Chart($('chartDaily28'), { type: 'line', data: { labels: lD28, datasets: dD28 }, options: makeChartOptions(minD28, maxD28, {}, 0.5) });
 
   const dayWeekRaw = buildDayOfWeekDataDaily(false);
   const dayWeekLabels = dayWeekRaw.map(r => r.day);
