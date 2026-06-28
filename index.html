@@ -335,10 +335,6 @@ function render() {
 function buildDashboardHTML() {
   const data = allData;
   const last = data[data.length - 1];
-  const today = todayData ? todayData.weight : null;
-  const bmiVal = today ? bmi(today) : null;
-  const cat = bmiVal ? bmiCategory(bmiVal) : null;
-
   const todayISO = last.iso;
   const findExact = (days) => {
     const d = new Date(last.iso + 'T00:00:00');
@@ -346,10 +342,13 @@ function buildDashboardHTML() {
     const iso = toISO(d);
     return data.find(r => r.iso === iso) || null;
   };
+  const todayData = data.find(r => r.iso === todayISO) || null;
   const lastWeekData = findExact(7);
   const lastYear = findExact(364);
   const yesterdayData = findExact(1);
-  const todayData = data.find(r => r.iso === todayISO) || null;
+  const today = todayData ? todayData.weight : null;
+  const bmiVal = today ? bmi(today) : null;
+  const cat = bmiVal ? bmiCategory(bmiVal) : null;
 
   // Rolling averages for comparison points
   const lastIdx = data.length - 1;
