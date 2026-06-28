@@ -339,7 +339,6 @@ function buildDashboardHTML() {
   const bmiVal = today ? bmi(today) : null;
   const cat = bmiVal ? bmiCategory(bmiVal) : null;
 
-  const yesterday = data.length > 1 ? data[data.length - 2].weight : null;
   const todayISO = last.iso;
   const findExact = (days) => {
     const d = new Date(last.iso + 'T00:00:00');
