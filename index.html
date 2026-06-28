@@ -905,7 +905,7 @@ function drawCharts() {
   charts.c7avg = new Chart($('chart7avg'), { type: 'line', data: { labels: l7a, datasets: d7a }, options: makeChartOptions(adj7aMin, adj7aMax, {}, 0.2) });
 
   const { labels: l28, datasets: d28, min: min28, max: max28 } = buildDatasets28();
-  charts.c28 = new Chart($('chart28'), { type: 'line', data: { labels: l28, datasets: d28 }, options: makeChartOptions(min28, max28, {}, 0.5) });
+  charts.c28 = new Chart($('chart28'), { type: 'line', data: { labels: l28, datasets: d28 }, options: makeChartOptions(min28, max28, {}, 0.4) });
 
   const avgDayWeekRaw = buildDayOfWeekData(false);
   const avgDayWeekLabels = avgDayWeekRaw.map(r => r.day);
@@ -942,8 +942,8 @@ function drawCharts() {
   });
 
   const { labels: lBmi28, bmiVals: bmiVals28 } = buildDatasetsBmi28();
-  const minBmi28 = parseFloat((Math.min(...bmiVals28.filter(Boolean)) - 0.5).toFixed(2));
-  const maxBmi28 = parseFloat((Math.max(...bmiVals28.filter(Boolean)) + 0.5).toFixed(2));
+  const minBmi28 = parseFloat((Math.min(...bmiVals28.filter(Boolean)) - 0.25).toFixed(2));
+  const maxBmi28 = parseFloat((Math.max(...bmiVals28.filter(Boolean)) + 0.25).toFixed(2));
   charts.cBmi28 = new Chart($('chartBmi28'), {
     type: 'line',
     data: { labels: lBmi28, datasets: [
@@ -983,7 +983,7 @@ function drawCharts() {
   charts.c7daily = new Chart($('chart7daily'), { type: 'line', data: { labels: l7d, datasets: d7d }, options: makeChartOptions(adj7dMin, adj7dMax, {}, 0.2) });
 
   const { labels: lD28, datasets: dD28, min: minD28, max: maxD28 } = buildDatasetsDaily28();
-  charts.cDaily28 = new Chart($('chartDaily28'), { type: 'line', data: { labels: lD28, datasets: dD28 }, options: makeChartOptions(minD28, maxD28, {}, 0.5) });
+  charts.cDaily28 = new Chart($('chartDaily28'), { type: 'line', data: { labels: lD28, datasets: dD28 }, options: makeChartOptions(minD28, maxD28, {}, 0.4) });
 
   const dayWeekRaw = buildDayOfWeekDataDaily(false);
   const dayWeekLabels = dayWeekRaw.map(r => r.day);
