@@ -80,7 +80,7 @@
   .bmi-bands { position: relative; border-radius: 8px; overflow: hidden; }
   .section-title { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin: 1.5rem 0 0.75rem; }
   .data-table-wrap { overflow-x: auto; overflow-y: auto; max-height: 400px; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 380px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
   th { text-align: left; font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 12px; border-bottom: 0.5px solid var(--border); position: sticky; top: 0; background: var(--surface); z-index: 1; white-space: nowrap; }
   td { padding: 8px 12px; border-bottom: 0.5px solid var(--border); white-space: nowrap; }
   tr:last-child td { border-bottom: none; }
@@ -89,6 +89,11 @@
   .tag-overweight { background: var(--amber-light); color: var(--amber); }
   .tag-obese { background: var(--danger-light); color: var(--danger); }
   .tag-under { background: var(--accent-light); color: var(--accent); }
+  .bmi-cell { display: inline-block; padding: 2px 8px; border-radius: 6px; font-weight: 500; color: #fff; font-size: 13px; }
+  .bmi-normal { background: var(--teal); }
+  .bmi-overweight { background: var(--amber); }
+  .bmi-obese { background: var(--danger); }
+  .bmi-under { background: var(--accent); }
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: center; justify-content: center; }
   .modal-overlay.open { display: flex; }
   .modal { background: var(--surface); border-radius: 16px; padding: 1.5rem; width: 90%; max-width: 380px; }
@@ -776,6 +781,24 @@ function buildDatasetsDaily28() {
   return { labels, datasets, min: Math.min(...weights), max: Math.max(...weights) };
 }
 
+function buildDayOfWeekDataDaily(vsYesterday) {
+  const slice = getSlice(7);
+  return slice.map(entry => {
+    const day = entry.date.toLocaleDateString('en-GB', {weekday:'short'});
+    let val = 0;
+    if (vsYesterday) {
+      const ydISO = (() => { const d = new Date(entry.iso + 'T00:00:00'); d.setDate(d.getDate()-1); return toISO(d); })();
+      const prev = allData.find(d => d.iso === ydISO);
+      if (prev) val = parseFloat((entry.weight - prev.weight).toFixed(2));
+    } else {
+      const lwISO = (() => { const d = new Date(entry.iso + 'T00:00:00'); d.setDate(d.getDate()-7); return toISO(d); })();
+      const weekAgo = allData.find(d => d.iso === lwISO);
+      if (weekAgo) val = parseFloat((entry.weight - weekAgo.weight).toFixed(2));
+    }
+    return { day, val };
+  });
+}
+
 function buildDayOfWeekData(vsYesterday) {
   const slice = getSlice(7);
   return slice.map(entry => {
@@ -916,11 +939,15 @@ function drawCharts() {
   const { labels: lD28, datasets: dD28, min: minD28, max: maxD28 } = buildDatasetsDaily28();
   charts.cDaily28 = new Chart($('chartDaily28'), { type: 'line', data: { labels: lD28, datasets: dD28 }, options: makeChartOptions(minD28, maxD28) });
 
-  const dayWeek = buildDayOfWeekData(false);
-  charts.cDayWeek = new Chart($('chartDayWeek'), { type: 'bar', data: { labels: days, datasets: [{ data: dayWeek, backgroundColor: barColors(dayWeek), borderRadius: 4 }] }, options: barOpts(dayWeek) });
+  const dayWeekRaw = buildDayOfWeekDataDaily(false);
+  const dayWeekLabels = dayWeekRaw.map(r => r.day);
+  const dayWeekVals = dayWeekRaw.map(r => r.val);
+  charts.cDayWeek = new Chart($('chartDayWeek'), { type: 'bar', data: { labels: dayWeekLabels, datasets: [{ data: dayWeekVals, backgroundColor: barColors(dayWeekVals), borderRadius: 4 }] }, options: barOpts(dayWeekVals) });
 
-  const dayYest = buildDayOfWeekData(true);
-  charts.cDayYest = new Chart($('chartDayYest'), { type: 'bar', data: { labels: days, datasets: [{ data: dayYest, backgroundColor: barColors(dayYest), borderRadius: 4 }] }, options: barOpts(dayYest) });
+  const dayYestRaw = buildDayOfWeekDataDaily(true);
+  const dayYestLabels = dayYestRaw.map(r => r.day);
+  const dayYestVals = dayYestRaw.map(r => r.val);
+  charts.cDayYest = new Chart($('chartDayYest'), { type: 'bar', data: { labels: dayYestLabels, datasets: [{ data: dayYestVals, backgroundColor: barColors(dayYestVals), borderRadius: 4 }] }, options: barOpts(dayYestVals) });
 
   const { labels: lDA, datasets: dDA, min: minDA, max: maxDA } = buildDatasetsDailyAll();
   charts.cDailyAll = new Chart($('chartDailyAll'), { type: 'line', data: { labels: lDA, datasets: dDA }, options: makeChartOptions(minDA, maxDA) });
@@ -930,18 +957,18 @@ function drawCharts() {
 
 function buildDataTable() {
   const recent = [...allData].reverse();
-  let html = `<table><thead><tr><th>Date</th><th>Weight (kg)</th><th>7-day avg</th><th>BMI</th></tr></thead><tbody>`;
+  let html = `<table><thead><tr><th>Date</th><th>Wt</th><th>7d avg</th><th>BMI</th></tr></thead><tbody>`;
   for (const row of recent) {
     const globalIdx = allData.indexOf(row);
     const avg = rolling7(allData, globalIdx);
     const b = bmi(row.weight);
     const cat = bmiCategory(b);
-    const bmiColour = cat.cls === 'tag-normal' ? 'color:var(--success)' : cat.cls === 'tag-overweight' ? 'color:var(--amber)' : cat.cls === 'tag-obese' ? 'color:var(--danger)' : 'color:var(--accent)';
+    const bmiCls = cat.cls === 'tag-normal' ? 'bmi-normal' : cat.cls === 'tag-overweight' ? 'bmi-overweight' : cat.cls === 'tag-obese' ? 'bmi-obese' : 'bmi-under';
     html += `<tr>
       <td>${row.iso}</td>
       <td>${row.weight.toFixed(1)}</td>
       <td>${avg ? avg.toFixed(1) : '—'}</td>
-      <td style="${bmiColour}">${b.toFixed(1)}</td>
+      <td><span class="bmi-cell ${bmiCls}">${b.toFixed(1)}</span></td>
     </tr>`;
   }
   html += '</tbody></table>';
