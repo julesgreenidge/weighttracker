@@ -64,7 +64,10 @@
   .status { font-size: 13px; color: var(--text-muted); margin-top: 8px; min-height: 20px; }
   .status.error { color: var(--danger); }
   .status.ok { color: var(--success); }
-  .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 1rem; }
+  .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
+  .metric-rows { display: flex; flex-direction: column; gap: 5px; margin-top: 10px; border-top: 0.5px solid var(--border); padding-top: 10px; }
+  .metric-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+  .metric-row-label { color: var(--text-muted); font-size: 12px; }
   .metric-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px; padding: 1rem; }
   .metric-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
   .metric-value { font-size: 26px; font-weight: 500; letter-spacing: -1px; }
@@ -333,26 +336,55 @@ function buildDashboardHTML() {
   const data = allData;
   const last = data[data.length - 1];
   const today = last.weight;
-  const avg7 = rolling7(data, data.length - 1);
   const bmiVal = bmi(today);
-  const avg7bmi = bmi(avg7);
   const cat = bmiCategory(bmiVal);
 
   const yesterday = data.length > 1 ? data[data.length - 2].weight : null;
-  const lastWeekData = data.find(d => {
-    const cutoff = new Date(last.date); cutoff.setDate(cutoff.getDate() - 7);
-    return Math.abs(d.date - cutoff) < 86400000;
-  });
-  const lastYear = data.find(d => {
-    const cutoff = new Date(last.date); cutoff.setFullYear(cutoff.getFullYear() - 1);
-    return Math.abs(d.date - cutoff) < 3 * 86400000;
-  });
+  const findDaysBack = (days, tolerance = 2) => {
+    const cutoff = new Date(last.date);
+    cutoff.setDate(cutoff.getDate() - days);
+    return data.find(d => Math.abs(d.date - cutoff) < tolerance * 86400000) || null;
+  };
+  const lastWeekData = findDaysBack(7);
+  const lastYear = findDaysBack(364, 4);
+  const yesterdayData = data.length > 1 ? data[data.length - 2] : null;
 
-  const deltaStr = (cur, prev) => {
-    if (prev == null) return '';
+  // Rolling averages for comparison points
+  const lastIdx = data.length - 1;
+  const yesterdayIdx = data.length > 1 ? data.length - 2 : null;
+  const lastWeekIdx = lastWeekData ? data.indexOf(lastWeekData) : null;
+  const lastYearIdx = lastYear ? data.indexOf(lastYear) : null;
+
+  const avg7 = rolling7(data, lastIdx);
+  const yesterdayAvg7 = yesterdayIdx !== null ? rolling7(data, yesterdayIdx) : null;
+  const lastWeekAvg7 = lastWeekIdx !== null ? rolling7(data, lastWeekIdx) : null;
+  const lastYearAvg7 = lastYearIdx !== null ? rolling7(data, lastYearIdx) : null;
+
+  const lastWeekWeight = lastWeekData ? lastWeekData.weight : null;
+  const lastYearWeight = lastYear ? lastYear.weight : null;
+
+  const targetBmi = target ? bmi(target) : null;
+  const avg7bmi = avg7 ? bmi(avg7) : null;
+  const yesterdayBmi7 = yesterdayAvg7 ? bmi(yesterdayAvg7) : null;
+  const lastWeekBmi7 = lastWeekAvg7 ? bmi(lastWeekAvg7) : null;
+  const lastYearBmi7 = lastYearAvg7 ? bmi(lastYearAvg7) : null;
+  const yesterdayBmiDaily = yesterdayData ? bmi(yesterdayData.weight) : null;
+  const lastWeekBmiDaily = lastWeekData ? bmi(lastWeekData.weight) : null;
+  const lastYearBmiDaily = lastYear ? bmi(lastYear.weight) : null;
+
+  const deltaClass = (cur, prev) => {
+    if (cur == null || prev == null) return '';
+    return cur > prev ? 'delta-pos' : 'delta-neg';
+  };
+  const deltaFmt = (cur, prev) => {
+    if (cur == null || prev == null) return '—';
     const d = cur - prev;
-    const cls = d > 0 ? 'delta-pos' : 'delta-neg';
-    return `<span class="${cls}">${d > 0 ? '+' : ''}${d.toFixed(1)} kg</span>`;
+    return `<span class="${deltaClass(cur, prev)}">${d > 0 ? '+' : ''}${d.toFixed(1)} kg</span>`;
+  };
+  const deltaFmtBmi = (cur, prev) => {
+    if (cur == null || prev == null) return '—';
+    const d = cur - prev;
+    return `<span class="${deltaClass(cur, prev)}">${d > 0 ? '+' : ''}${d.toFixed(2)}</span>`;
   };
 
   const distFromTarget = target ? (today - target).toFixed(1) : '—';
@@ -360,56 +392,53 @@ function buildDashboardHTML() {
 
   return `
 <div class="metrics-grid">
+
   <div class="metric-card">
-    <div class="metric-label">7-day average</div>
+    <div class="metric-label">7-day rolling average</div>
     <div class="metric-value">${avg7 ? avg7.toFixed(1) : '—'}<small style="font-size:14px;font-weight:400"> kg</small></div>
-    <div class="metric-sub">${lastWeekData ? deltaStr(avg7, rolling7(data, data.indexOf(lastWeekData))) + ' vs last week' : ''}</div>
+    <div class="metric-rows">
+      <div class="metric-row"><span class="metric-row-label">vs last week</span><span class="${deltaClass(avg7, lastWeekAvg7)}">${deltaFmt(avg7, lastWeekAvg7)}</span></div>
+      <div class="metric-row"><span class="metric-row-label">vs target</span><span class="${deltaClass(avg7, target)}">${target ? deltaFmt(avg7, target) : '—'}</span></div>
+      <div class="metric-row"><span class="metric-row-label">vs yesterday</span><span class="${deltaClass(avg7, yesterdayAvg7)}">${deltaFmt(avg7, yesterdayAvg7)}</span></div>
+      <div class="metric-row"><span class="metric-row-label">vs last year</span><span class="${deltaClass(avg7, lastYearAvg7)}">${deltaFmt(avg7, lastYearAvg7)}</span></div>
+    </div>
   </div>
+
   <div class="metric-card">
-    <div class="metric-label">Today's weight</div>
+    <div class="metric-label">Daily weight</div>
     <div class="metric-value">${today.toFixed(1)}<small style="font-size:14px;font-weight:400"> kg</small></div>
-    <div class="metric-sub">${yesterday != null ? deltaStr(today, yesterday) + ' vs yesterday' : 'First reading'}</div>
+    <div class="metric-rows">
+      <div class="metric-row"><span class="metric-row-label">vs last week</span><span class="${deltaClass(today, lastWeekWeight)}">${deltaFmt(today, lastWeekWeight)}</span></div>
+      <div class="metric-row"><span class="metric-row-label">vs target</span><span class="${deltaClass(today, target)}">${target ? deltaFmt(today, target) : '—'}</span></div>
+      <div class="metric-row"><span class="metric-row-label">vs yesterday</span><span class="${deltaClass(today, yesterday)}">${deltaFmt(today, yesterday)}</span></div>
+      <div class="metric-row"><span class="metric-row-label">vs last year</span><span class="${deltaClass(today, lastYearWeight)}">${deltaFmt(today, lastYearWeight)}</span></div>
+    </div>
   </div>
+
   <div class="metric-card">
     <div class="metric-label">7-day BMI</div>
     <div class="metric-value">${avg7bmi.toFixed(1)}</div>
-    <div class="metric-sub"><span class="tag ${bmiCategory(avg7bmi).cls}">${bmiCategory(avg7bmi).label}</span></div>
+    <div style="margin-bottom:8px"><span class="tag ${bmiCategory(avg7bmi).cls}">${bmiCategory(avg7bmi).label}</span></div>
+    <div class="metric-rows">
+      <div class="metric-row"><span class="metric-row-label">vs last week</span><span class="${deltaClass(avg7bmi, lastWeekBmi7)}">${deltaFmtBmi(avg7bmi, lastWeekBmi7)}</span></div>
+      <div class="metric-row"><span class="metric-row-label">vs target BMI</span><span class="${deltaClass(avg7bmi, targetBmi)}">${deltaFmtBmi(avg7bmi, targetBmi)}</span></div>
+      <div class="metric-row"><span class="metric-row-label">vs yesterday</span><span class="${deltaClass(avg7bmi, yesterdayBmi7)}">${deltaFmtBmi(avg7bmi, yesterdayBmi7)}</span></div>
+      <div class="metric-row"><span class="metric-row-label">vs last year</span><span class="${deltaClass(avg7bmi, lastYearBmi7)}">${deltaFmtBmi(avg7bmi, lastYearBmi7)}</span></div>
+    </div>
   </div>
+
   <div class="metric-card">
-    <div class="metric-label">BMI</div>
+    <div class="metric-label">Daily BMI</div>
     <div class="metric-value">${bmiVal.toFixed(1)}</div>
-    <div class="metric-sub"><span class="tag ${cat.cls}">${cat.label}</span></div>
+    <div style="margin-bottom:8px"><span class="tag ${cat.cls}">${cat.label}</span></div>
+    <div class="metric-rows">
+      <div class="metric-row"><span class="metric-row-label">vs last week</span><span class="${deltaClass(bmiVal, lastWeekBmiDaily)}">${deltaFmtBmi(bmiVal, lastWeekBmiDaily)}</span></div>
+      <div class="metric-row"><span class="metric-row-label">vs target BMI</span><span class="${deltaClass(bmiVal, targetBmi)}">${deltaFmtBmi(bmiVal, targetBmi)}</span></div>
+      <div class="metric-row"><span class="metric-row-label">vs yesterday</span><span class="${deltaClass(bmiVal, yesterdayBmiDaily)}">${deltaFmtBmi(bmiVal, yesterdayBmiDaily)}</span></div>
+      <div class="metric-row"><span class="metric-row-label">vs last year</span><span class="${deltaClass(bmiVal, lastYearBmiDaily)}">${deltaFmtBmi(bmiVal, lastYearBmiDaily)}</span></div>
+    </div>
   </div>
-  <div class="metric-card">
-    <div class="metric-label">7-day avg vs last week</div>
-    <div class="metric-value" style="font-size:20px">${lastWeekData ? deltaStr(avg7, rolling7(data, data.indexOf(lastWeekData))) : '—'}</div>
-    <div class="metric-sub">rolling avg change</div>
-  </div>
-  <div class="metric-card">
-    <div class="metric-label">Weight vs last week</div>
-    <div class="metric-value" style="font-size:20px">${lastWeekData ? deltaStr(today, lastWeekData.weight) : '—'}</div>
-    <div class="metric-sub">daily weight change</div>
-  </div>
-  <div class="metric-card">
-    <div class="metric-label">7-day avg vs yesterday</div>
-    <div class="metric-value" style="font-size:20px">${yesterday != null ? deltaStr(avg7, rolling7(data, data.length - 2)) : '—'}</div>
-    <div class="metric-sub">rolling avg change</div>
-  </div>
-  <div class="metric-card">
-    <div class="metric-label">Weight vs yesterday</div>
-    <div class="metric-value" style="font-size:20px">${yesterday != null ? deltaStr(today, yesterday) : '—'}</div>
-    <div class="metric-sub">daily weight change</div>
-  </div>
-  <div class="metric-card">
-    <div class="metric-label">Distance from target</div>
-    <div class="metric-value" style="font-size:20px">${target ? `<span class="${distClass}">${distFromTarget > 0 ? '+' : ''}${distFromTarget} kg</span>` : '—'}</div>
-    <div class="metric-sub">${target ? `Target: ${target} kg` : 'Set a target in settings'}</div>
-  </div>
-  <div class="metric-card">
-    <div class="metric-label">vs last year</div>
-    <div class="metric-value" style="font-size:20px">${lastYear ? deltaStr(today, lastYear.weight) : '—'}</div>
-    <div class="metric-sub">${lastYear ? lastYear.iso : 'No data'}</div>
-  </div>
+
 </div>
 
 <p class="section-title">7-day average</p>
