@@ -335,23 +335,26 @@ function render() {
 function buildDashboardHTML() {
   const data = allData;
   const last = data[data.length - 1];
-  const today = last.weight;
-  const bmiVal = bmi(today);
-  const cat = bmiCategory(bmiVal);
+  const today = todayData ? todayData.weight : null;
+  const bmiVal = today ? bmi(today) : null;
+  const cat = bmiVal ? bmiCategory(bmiVal) : null;
 
   const yesterday = data.length > 1 ? data[data.length - 2].weight : null;
-  const findDaysBack = (days, tolerance = 2) => {
-    const cutoff = new Date(last.date);
-    cutoff.setDate(cutoff.getDate() - days);
-    return data.find(d => Math.abs(d.date - cutoff) < tolerance * 86400000) || null;
+  const todayISO = last.iso;
+  const findExact = (days) => {
+    const d = new Date(last.iso + 'T00:00:00');
+    d.setDate(d.getDate() - days);
+    const iso = toISO(d);
+    return data.find(r => r.iso === iso) || null;
   };
-  const lastWeekData = findDaysBack(7);
-  const lastYear = findDaysBack(364, 4);
-  const yesterdayData = data.length > 1 ? data[data.length - 2] : null;
+  const lastWeekData = findExact(7);
+  const lastYear = findExact(364);
+  const yesterdayData = findExact(1);
+  const todayData = data.find(r => r.iso === todayISO) || null;
 
   // Rolling averages for comparison points
   const lastIdx = data.length - 1;
-  const yesterdayIdx = data.length > 1 ? data.length - 2 : null;
+  const yesterdayIdx = yesterdayData ? data.indexOf(yesterdayData) : null;
   const lastWeekIdx = lastWeekData ? data.indexOf(lastWeekData) : null;
   const lastYearIdx = lastYear ? data.indexOf(lastYear) : null;
 
@@ -360,6 +363,7 @@ function buildDashboardHTML() {
   const lastWeekAvg7 = lastWeekIdx !== null ? rolling7(data, lastWeekIdx) : null;
   const lastYearAvg7 = lastYearIdx !== null ? rolling7(data, lastYearIdx) : null;
 
+  const yesterday = yesterdayData ? yesterdayData.weight : null;
   const lastWeekWeight = lastWeekData ? lastWeekData.weight : null;
   const lastYearWeight = lastYear ? lastYear.weight : null;
 
@@ -406,7 +410,7 @@ function buildDashboardHTML() {
 
   <div class="metric-card">
     <div class="metric-label">Daily weight</div>
-    <div class="metric-value">${today.toFixed(1)}<small style="font-size:14px;font-weight:400"> kg</small></div>
+    <div class="metric-value">${today != null ? today.toFixed(1) : '—'}<small style="font-size:14px;font-weight:400"> kg</small></div>
     <div class="metric-rows">
       <div class="metric-row"><span class="metric-row-label">vs last week</span><span class="${deltaClass(today, lastWeekWeight)}">${deltaFmt(today, lastWeekWeight)}</span></div>
       <div class="metric-row"><span class="metric-row-label">vs target</span><span class="${deltaClass(today, target)}">${target ? deltaFmt(today, target) : '—'}</span></div>
@@ -429,8 +433,8 @@ function buildDashboardHTML() {
 
   <div class="metric-card">
     <div class="metric-label">Daily BMI</div>
-    <div class="metric-value">${bmiVal.toFixed(1)}</div>
-    <div style="margin-bottom:8px"><span class="tag ${cat.cls}">${cat.label}</span></div>
+    <div class="metric-value">${bmiVal != null ? bmiVal.toFixed(1) : '—'}</div>
+    <div style="margin-bottom:8px">${cat ? `<span class="tag ${cat.cls}">${cat.label}</span>` : ''}</div>
     <div class="metric-rows">
       <div class="metric-row"><span class="metric-row-label">vs last week</span><span class="${deltaClass(bmiVal, lastWeekBmiDaily)}">${deltaFmtBmi(bmiVal, lastWeekBmiDaily)}</span></div>
       <div class="metric-row"><span class="metric-row-label">vs target BMI</span><span class="${deltaClass(bmiVal, targetBmi)}">${deltaFmtBmi(bmiVal, targetBmi)}</span></div>
@@ -585,14 +589,10 @@ function getSlice(days) {
 }
 
 function findClosestBefore(isoDate, daysBack) {
-  const target = new Date(isoDate);
+  const target = new Date(isoDate + 'T00:00:00');
   target.setDate(target.getDate() - daysBack);
-  let best = null, bestDiff = Infinity;
-  for (const r of allData) {
-    const diff = Math.abs(r.date - target);
-    if (diff < bestDiff && diff < 2 * 86400000) { best = r; bestDiff = diff; }
-  }
-  return best;
+  const targetISO = toISO(target);
+  return allData.find(d => d.iso === targetISO) || null;
 }
 
 function buildDatasets7Daily() {
