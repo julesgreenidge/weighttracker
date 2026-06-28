@@ -920,17 +920,26 @@ function drawCharts() {
   // --- BMI ---
   const { labels: lBmi7, thisWeekBmi, lastWeekBmi, min: minBmi7, max: maxBmi7 } = buildDatasetsBmi7();
   const bmi7pad = 0.5;
+  const bmi7Min = parseFloat((minBmi7 - 0.25).toFixed(2));
+  const bmi7Max = parseFloat((maxBmi7 + 0.25).toFixed(2));
+  const bmi7BandDatasets = [
+    { label: '_red', data: Array(lBmi7.length).fill(50), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: 30 }, backgroundColor: `rgba(226,75,74,${document.documentElement.getAttribute('data-theme')==='dark'?0.35:0.15})` },
+    { label: '_amber', data: Array(lBmi7.length).fill(30), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: 25 }, backgroundColor: `rgba(186,117,23,${document.documentElement.getAttribute('data-theme')==='dark'?0.35:0.15})` },
+    { label: '_green', data: Array(lBmi7.length).fill(25), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: 0 }, backgroundColor: `rgba(99,153,34,${document.documentElement.getAttribute('data-theme')==='dark'?0.35:0.15})` }
+  ];
   charts.cBmi7 = new Chart($('chartBmi7'), {
     type: 'line',
     data: { labels: lBmi7, datasets: [
+      ...bmi7BandDatasets,
       { label: 'This week', data: thisWeekBmi, borderColor: chartLine(), borderWidth: 2, pointRadius: 4, fill: false, tension: 0.3 },
       { label: 'Same week last week', data: lastWeekBmi, borderColor: chartLineSecondary(), borderWidth: 1.5, pointRadius: 3, fill: false, tension: 0.3, borderDash: [5,4] }
     ]},
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)}` } } }, scales: { x: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#888', font: { size: 11 } } }, y: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#888', font: { size: 11 }, callback: v => v.toFixed(1) }, min: minBmi7 - bmi7pad, max: maxBmi7 + bmi7pad } } }
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { filter: ctx => !ctx.dataset.label.startsWith('_'), callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)}` } } }, scales: { x: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#888', font: { size: 11 } } }, y: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#888', font: { size: 11 }, callback: v => v.toFixed(1) }, min: bmi7Min, max: bmi7Max } } }
   });
 
   const { labels: lBmi28, bmiVals: bmiVals28 } = buildDatasetsBmi28();
-  const minBmi28 = 18, maxBmi28 = Math.max(32, ...bmiVals28.filter(Boolean)) + 1;
+  const minBmi28 = parseFloat((Math.min(...bmiVals28.filter(Boolean)) - 1).toFixed(2));
+  const maxBmi28 = parseFloat((Math.max(...bmiVals28.filter(Boolean)) + 1).toFixed(2));
   charts.cBmi28 = new Chart($('chartBmi28'), {
     type: 'line',
     data: { labels: lBmi28, datasets: [
@@ -949,7 +958,8 @@ function drawCharts() {
   charts.cBmiDayYest = new Chart($('chartBmiDayYest'), { type: 'bar', data: { labels: days, datasets: [{ data: bmiDayYest, backgroundColor: barColors(bmiDayYest), borderRadius: 4 }] }, options: barOpts(bmiDayYest) });
 
   const { labels: lBmiAll, bmiVals: bmiValsAll } = buildDatasetsBmiAll();
-  const minBmiAll = 18, maxBmiAll = Math.max(32, ...bmiValsAll.filter(Boolean)) + 1;
+  const minBmiAll = parseFloat((Math.min(...bmiValsAll.filter(Boolean)) - 2).toFixed(2));
+  const maxBmiAll = parseFloat((Math.max(...bmiValsAll.filter(Boolean)) + 2).toFixed(2));
   charts.cBmiAll = new Chart($('chartBmiAll'), {
     type: 'line',
     data: { labels: lBmiAll, datasets: [
