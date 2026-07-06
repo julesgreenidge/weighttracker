@@ -1063,7 +1063,7 @@ $('btn-add-save').onclick = () => {
 $('modal-settings').addEventListener('click', e => { if (e.target === $('modal-settings')) closeModal('modal-settings'); });
 $('modal-add').addEventListener('click', e => { if (e.target === $('modal-add')) closeModal('modal-add'); });
 
-function init() {
+async function init() {
   loadSettings();
   const stored = localStorage.getItem('wt_data');
   if (stored) {
@@ -1071,6 +1071,12 @@ function init() {
     allData = raw.map(r => ({ ...r, date: new Date(r.date) })).sort((a,b) => a.date - b.date);
   }
   render();
+  // Always fetch latest from sheet on load
+  const s = JSON.parse(localStorage.getItem('wt_settings') || '{}');
+  if (s.sheetId && s.apiKey) {
+    await fetchFromSheet();
+    render();
+  }
 }
 
 const savedTheme = localStorage.getItem('wt_theme');
