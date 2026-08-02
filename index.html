@@ -887,10 +887,10 @@ function drawCharts() {
   const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   const barOpts = (data) => ({
     responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => (ctx.parsed.y >= 0 ? '+' : '') + ctx.parsed.y.toFixed(3) } } },
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => (ctx.parsed.y >= 0 ? '+' : '') + ctx.parsed.y.toFixed(1) } } },
     scales: {
       x: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#888', font: { size: 11 } } },
-      y: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#888', font: { size: 11 }, callback: v => (v > 0 ? '+' : '') + v.toFixed(2) } }
+      y: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#888', font: { size: 11 }, callback: v => (v > 0 ? '+' : '') + v.toFixed(1) } }
     }
   });
   const barColors = (data) => data.map(v => v >= 0 ? 'rgba(226,75,74,0.7)' : 'rgba(99,153,34,0.7)');
