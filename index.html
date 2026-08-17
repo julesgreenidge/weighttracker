@@ -1232,18 +1232,22 @@ function drawCharts() {
 
 function buildDataTable() {
   const recent = [...allData].reverse();
-  let html = `<table><thead><tr><th>Date</th><th>Wt</th><th>7d avg</th><th>BMI</th></tr></thead><tbody>`;
+  let html = `<table><thead><tr><th>Date</th><th>7d avg</th><th>7d BMI</th><th>Daily wt</th><th>Daily BMI</th></tr></thead><tbody>`;
   for (const row of recent) {
     const globalIdx = allData.indexOf(row);
     const avg = rolling7(allData, globalIdx);
-    const b = bmi(row.weight);
-    const cat = bmiCategory(b);
-    const bmiCls = cat.cls === 'tag-normal' ? 'bmi-normal' : cat.cls === 'tag-overweight' ? 'bmi-overweight' : cat.cls === 'tag-obese' ? 'bmi-obese' : 'bmi-under';
+    const avgBmi = avg ? bmi(avg) : null;
+    const dailyBmi = bmi(row.weight);
+    const avgBmiCat = avgBmi ? bmiCategory(avgBmi) : null;
+    const dailyBmiCat = bmiCategory(dailyBmi);
+    const avgBmiCls = avgBmiCat ? (avgBmiCat.cls === 'tag-normal' ? 'bmi-normal' : avgBmiCat.cls === 'tag-overweight' ? 'bmi-overweight' : avgBmiCat.cls === 'tag-obese' ? 'bmi-obese' : 'bmi-under') : '';
+    const dailyBmiCls = dailyBmiCat.cls === 'tag-normal' ? 'bmi-normal' : dailyBmiCat.cls === 'tag-overweight' ? 'bmi-overweight' : dailyBmiCat.cls === 'tag-obese' ? 'bmi-obese' : 'bmi-under';
     html += `<tr>
       <td>${row.iso}</td>
-      <td>${row.weight.toFixed(1)}</td>
       <td>${avg ? avg.toFixed(1) : '-'}</td>
-      <td><span class="bmi-cell ${bmiCls}">${b.toFixed(1)}</span></td>
+      <td>${avgBmi ? `<span class="bmi-cell ${avgBmiCls}">${avgBmi.toFixed(1)}</span>` : '-'}</td>
+      <td>${row.weight.toFixed(1)}</td>
+      <td><span class="bmi-cell ${dailyBmiCls}">${dailyBmi.toFixed(1)}</span></td>
     </tr>`;
   }
   html += '</tbody></table>';
