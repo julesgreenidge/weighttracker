@@ -303,6 +303,19 @@ function rolling7(data, idx) {
   return count > 0 ? sum/count : null;
 }
 
+function rolling7ForDate(isoDate) {
+  // Compute 7-day rolling average for any date, even if no entry exists for that date
+  // Averages all readings within the 7-day window ending on isoDate (inclusive)
+  const targetDate = new Date(isoDate + 'T00:00:00');
+  const cutoff = new Date(targetDate);
+  cutoff.setDate(cutoff.getDate() - 6);
+  const cutoffISO = toISO(cutoff);
+  const window = allData.filter(r => r.iso >= cutoffISO && r.iso <= isoDate);
+  if (!window.length) return null;
+  const sum = window.reduce((a, r) => a + r.weight, 0);
+  return sum / window.length;
+}
+
 function processSheetRows(rows, colDateIdx, colWeightIdx) {
   const parsed = [];
   for (const row of rows) {
@@ -702,15 +715,7 @@ function buildDatasets7Avg() {
   const slice = get7DaySlice();
   const labels = slice.map(d => d.iso.slice(5));
   const thisWeekAvg = slice.map(d => {
-    // For rolling avg, find the last available entry on or before this date
-    const isoDate = d.iso;
-    const candidates = allData.filter(r => r.iso <= isoDate);
-    if (!candidates.length) return null;
-    const closestIdx = allData.indexOf(candidates[candidates.length - 1]);
-    // Only compute if the closest entry is within 7 days
-    const diffDays = Math.round((new Date(isoDate + 'T00:00:00') - allData[closestIdx].date) / 86400000);
-    if (diffDays > 6) return null;
-    const v = rolling7(allData, closestIdx);
+    const v = rolling7ForDate(d.iso);
     return v ? parseFloat(v.toFixed(2)) : null;
   });
   const lastWeekAvg = slice.map(d => {
@@ -734,12 +739,7 @@ function buildDatasets28() {
   const slice = getConsecutiveSlice(28);
   const labels = slice.map(d => d.iso.slice(5));
   const avgs = slice.map(d => {
-    const candidates = allData.filter(r => r.iso <= d.iso);
-    if (!candidates.length) return null;
-    const closestIdx = allData.indexOf(candidates[candidates.length - 1]);
-    const diffDays = Math.round((new Date(d.iso + 'T00:00:00') - allData[closestIdx].date) / 86400000);
-    if (diffDays > 6) return null;
-    const v = rolling7(allData, closestIdx);
+    const v = rolling7ForDate(d.iso);
     return v ? parseFloat(v.toFixed(2)) : null;
   });
   const datasets = [
@@ -787,17 +787,13 @@ function buildDatasetsBmi7() {
   const slice = get7DaySlice();
   const labels = slice.map(d => d.iso.slice(5));
   const thisWeekBmi = slice.map(d => {
-    const entry = allData.find(r => r.iso === d.iso);
-    if (!entry) return null;
-    const globalIdx = allData.indexOf(entry);
-    const avg = rolling7(allData, globalIdx);
+    const avg = rolling7ForDate(d.iso);
     return avg ? parseFloat(bmi(avg).toFixed(3)) : null;
   });
   const lastWeekBmi = slice.map(d => {
     const match = findClosestBefore(d.iso, 7);
     if (!match) return null;
-    const idx = allData.indexOf(match);
-    const avg = rolling7(allData, idx);
+    const avg = rolling7(allData, allData.indexOf(match));
     return avg ? parseFloat(bmi(avg).toFixed(3)) : null;
   });
   const allVals = [...thisWeekBmi, ...lastWeekBmi].filter(v => v != null && !isNaN(v));
@@ -808,12 +804,7 @@ function buildDatasetsBmi28() {
   const slice = getConsecutiveSlice(28);
   const labels = slice.map(d => d.iso.slice(5));
   const bmiVals = slice.map(d => {
-    const candidates = allData.filter(r => r.iso <= d.iso);
-    if (!candidates.length) return null;
-    const closestIdx = allData.indexOf(candidates[candidates.length - 1]);
-    const diffDays = Math.round((new Date(d.iso + 'T00:00:00') - allData[closestIdx].date) / 86400000);
-    if (diffDays > 6) return null;
-    const avg = rolling7(allData, closestIdx);
+    const avg = rolling7ForDate(d.iso);
     return avg ? parseFloat(bmi(avg).toFixed(3)) : null;
   });
   return { labels, bmiVals };
@@ -880,19 +871,22 @@ function getLast7Days() {
 }
 
 function buildDayOfWeekDataBmi(vsYesterday) {
+  // 7-day BMI bar chart: uses rolling avg BMI, not daily BMI
   return getLast7Days().map(({ iso, date, entry }) => {
     const day = date.toLocaleDateString('en-GB', {weekday:'short'});
     if (!entry) return { day, val: null };
-    const currBmi = bmi(entry.weight);
+    const currAvg = rolling7ForDate(iso);
+    if (!currAvg) return { day, val: null };
+    const currBmi = bmi(currAvg);
     let val = null;
     if (vsYesterday) {
       const ydISO = (() => { const d = new Date(iso + 'T00:00:00'); d.setDate(d.getDate()-1); return toISO(d); })();
-      const prev = allData.find(d => d.iso === ydISO);
-      if (prev) val = parseFloat((currBmi - bmi(prev.weight)).toFixed(3));
+      const prevAvg = rolling7ForDate(ydISO);
+      if (prevAvg) val = parseFloat((currBmi - bmi(prevAvg)).toFixed(3));
     } else {
       const lwISO = (() => { const d = new Date(iso + 'T00:00:00'); d.setDate(d.getDate()-7); return toISO(d); })();
-      const weekAgo = allData.find(d => d.iso === lwISO);
-      if (weekAgo) val = parseFloat((currBmi - bmi(weekAgo.weight)).toFixed(3));
+      const weekAgoAvg = rolling7ForDate(lwISO);
+      if (weekAgoAvg) val = parseFloat((currBmi - bmi(weekAgoAvg)).toFixed(3));
     }
     return { day, val };
   });
@@ -1266,7 +1260,7 @@ function buildDataTable() {
   let html = `<table><thead><tr><th>Date</th><th>7d avg</th><th>7d BMI</th><th>Daily wt</th><th>Daily BMI</th></tr></thead><tbody>`;
   for (const row of recent) {
     const globalIdx = allData.indexOf(row);
-    const avg = rolling7(allData, globalIdx);
+    const avg = rolling7ForDate(row.iso);
     const avgBmi = avg ? bmi(avg) : null;
     const dailyBmi = bmi(row.weight);
     const avgBmiCat = avgBmi ? bmiCategory(avgBmi) : null;
