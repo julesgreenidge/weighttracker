@@ -145,7 +145,7 @@
   <div class="modal">
     <h2>Settings</h2>
     <div class="field">
-      <label>Google Sheets — Spreadsheet ID</label>
+      <label>Google Sheets - Spreadsheet ID</label>
       <input type="text" id="set-sheet-id" placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms">
     </div>
     <div class="field">
@@ -391,17 +391,17 @@ function buildDashboardHTML() {
     return cur > prev ? 'delta-pos' : 'delta-neg';
   };
   const deltaFmt = (cur, prev) => {
-    if (cur == null || prev == null) return '—';
+    if (cur == null || prev == null) return '-';
     const d = cur - prev;
     return `<span class="${deltaClass(cur, prev)}">${d > 0 ? '+' : ''}${d.toFixed(1)} kg</span>`;
   };
   const deltaFmtBmi = (cur, prev) => {
-    if (cur == null || prev == null) return '—';
+    if (cur == null || prev == null) return '-';
     const d = cur - prev;
     return `<span class="${deltaClass(cur, prev)}">${d > 0 ? '+' : ''}${d.toFixed(2)}</span>`;
   };
 
-  const distFromTarget = target ? (today - target).toFixed(1) : '—';
+  const distFromTarget = target ? (today - target).toFixed(1) : '-';
   const distClass = target && today > target ? 'delta-pos' : 'delta-neg';
 
   return `
@@ -409,9 +409,9 @@ function buildDashboardHTML() {
 
   <div class="metric-card">
     <div class="metric-label">7-day rolling average</div>
-    <div class="metric-value">${avg7 ? avg7.toFixed(1) : '—'}<small style="font-size:14px;font-weight:400"> kg</small></div>
+    <div class="metric-value">${avg7 ? avg7.toFixed(1) : '-'}<small style="font-size:14px;font-weight:400"> kg</small></div>
     <div class="metric-rows">
-      <div class="metric-row"><span class="metric-row-label">vs target</span><span class="${deltaClass(avg7, target)}">${target ? deltaFmt(avg7, target) : '—'}</span></div>
+      <div class="metric-row"><span class="metric-row-label">vs target</span><span class="${deltaClass(avg7, target)}">${target ? deltaFmt(avg7, target) : '-'}</span></div>
       <div class="metric-row"><span class="metric-row-label">vs last week</span><span class="${deltaClass(avg7, lastWeekAvg7)}">${deltaFmt(avg7, lastWeekAvg7)}</span></div>
       <div class="metric-row"><span class="metric-row-label">vs yesterday</span><span class="${deltaClass(avg7, yesterdayAvg7)}">${deltaFmt(avg7, yesterdayAvg7)}</span></div>
       <div class="metric-row"><span class="metric-row-label">vs last year</span><span class="${deltaClass(avg7, lastYearAvg7)}">${deltaFmt(avg7, lastYearAvg7)}</span></div>
@@ -420,9 +420,9 @@ function buildDashboardHTML() {
 
   <div class="metric-card">
     <div class="metric-label">Daily weight</div>
-    <div class="metric-value">${today != null ? today.toFixed(1) : '—'}<small style="font-size:14px;font-weight:400"> kg</small></div>
+    <div class="metric-value">${today != null ? today.toFixed(1) : '-'}<small style="font-size:14px;font-weight:400"> kg</small></div>
     <div class="metric-rows">
-      <div class="metric-row"><span class="metric-row-label">vs target</span><span class="${deltaClass(today, target)}">${target ? deltaFmt(today, target) : '—'}</span></div>
+      <div class="metric-row"><span class="metric-row-label">vs target</span><span class="${deltaClass(today, target)}">${target ? deltaFmt(today, target) : '-'}</span></div>
       <div class="metric-row"><span class="metric-row-label">vs last week</span><span class="${deltaClass(today, lastWeekWeight)}">${deltaFmt(today, lastWeekWeight)}</span></div>
       <div class="metric-row"><span class="metric-row-label">vs yesterday</span><span class="${deltaClass(today, yesterday)}">${deltaFmt(today, yesterday)}</span></div>
       <div class="metric-row"><span class="metric-row-label">vs last year</span><span class="${deltaClass(today, lastYearWeight)}">${deltaFmt(today, lastYearWeight)}</span></div>
@@ -443,7 +443,7 @@ function buildDashboardHTML() {
 
   <div class="metric-card">
     <div class="metric-label">Daily BMI</div>
-    <div class="metric-value">${bmiVal != null ? bmiVal.toFixed(1) : '—'}</div>
+    <div class="metric-value">${bmiVal != null ? bmiVal.toFixed(1) : '-'}</div>
     <div style="margin-bottom:8px">${cat ? `<span class="tag ${cat.cls}">${cat.label}</span>` : ''}</div>
     <div class="metric-rows">
       <div class="metric-row"><span class="metric-row-label">vs target</span><span class="${deltaClass(bmiVal, targetBmi)}">${deltaFmtBmi(bmiVal, targetBmi)}</span></div>
@@ -458,7 +458,7 @@ function buildDashboardHTML() {
 <p class="section-title">7-day average</p>
 
 <div class="chart-card">
-  <h3>7-day rolling average — last 7 days</h3>
+  <h3>7-day rolling average - last 7 days</h3>
   <div class="legend">
     <span><span class="legend-dot" style="background:var(--chart-line)"></span>This week</span>
     <span><span class="legend-dot" style="background:var(--chart-line-secondary)"></span>Same week last week</span>
@@ -468,7 +468,7 @@ function buildDashboardHTML() {
 </div>
 
 <div class="chart-card">
-  <h3>7-day rolling average — last 28 days</h3>
+  <h3>7-day rolling average - last 28 days</h3>
   <div class="legend">
     <span><span class="legend-dot" style="background:var(--chart-line)"></span>7-day average</span>
     ${target ? '<span><span class="legend-dot" style="background:#ba7517"></span>Target</span>' : ''}
@@ -488,7 +488,7 @@ function buildDashboardHTML() {
 </div>
 
 <div class="chart-card">
-  <h3>7-day rolling average — all time</h3>
+  <h3>7-day rolling average - all time</h3>
   <div class="legend">
     <span><span class="legend-dot" style="background:var(--chart-line)"></span>7-day average</span>
     ${target ? '<span><span class="legend-dot" style="background:#ba7517"></span>Target</span>' : ''}
@@ -499,7 +499,7 @@ function buildDashboardHTML() {
 <p class="section-title">BMI</p>
 
 <div class="chart-card">
-  <h3>BMI — last 7 days</h3>
+  <h3>BMI - last 7 days</h3>
   <div class="legend">
     <span><span class="legend-dot" style="background:var(--chart-line)"></span>This week</span>
     <span><span class="legend-dot" style="background:var(--chart-line-secondary)"></span>Same week last week</span>
@@ -508,7 +508,7 @@ function buildDashboardHTML() {
 </div>
 
 <div class="chart-card">
-  <h3>BMI — last 28 days</h3>
+  <h3>BMI - last 28 days</h3>
   <div class="legend">
     <span><span class="legend-dot" style="background:var(--chart-line)"></span>7-day BMI</span>
     <span><span class="legend-dot" style="background:#639922"></span>Normal (18.5–25)</span>
@@ -530,7 +530,7 @@ function buildDashboardHTML() {
 </div>
 
 <div class="chart-card">
-  <h3>BMI — all time</h3>
+  <h3>BMI - all time</h3>
   <div class="legend">
     <span><span class="legend-dot" style="background:var(--chart-line)"></span>7-day BMI</span>
     <span><span class="legend-dot" style="background:#639922"></span>Normal (18.5–25)</span>
@@ -543,7 +543,7 @@ function buildDashboardHTML() {
 <p class="section-title">Daily weight</p>
 
 <div class="chart-card">
-  <h3>Daily weight — last 7 days</h3>
+  <h3>Daily weight - last 7 days</h3>
   <div class="legend">
     <span><span class="legend-dot" style="background:var(--chart-line)"></span>This week</span>
     <span><span class="legend-dot" style="background:var(--chart-line-secondary)"></span>Same day last week</span>
@@ -553,7 +553,7 @@ function buildDashboardHTML() {
 </div>
 
 <div class="chart-card">
-  <h3>Daily weight — last 28 days</h3>
+  <h3>Daily weight - last 28 days</h3>
   <div class="legend">
     <span><span class="legend-dot" style="background:var(--chart-line)"></span>Daily weight</span>
     ${target ? '<span><span class="legend-dot" style="background:#ba7517"></span>Target</span>' : ''}
@@ -573,7 +573,7 @@ function buildDashboardHTML() {
 </div>
 
 <div class="chart-card">
-  <h3>Daily weight — all time</h3>
+  <h3>Daily weight - all time</h3>
   <div class="legend">
     <span><span class="legend-dot" style="background:var(--chart-line)"></span>Daily weight</span>
     ${target ? '<span><span class="legend-dot" style="background:#ba7517"></span>Target</span>' : ''}
@@ -738,18 +738,33 @@ function buildDatasetsBmiAll() {
   return { labels, bmiVals };
 }
 
+function getLast7Days() {
+  // Always returns exactly 7 consecutive days ending on the last data date
+  const lastISO = allData[allData.length - 1].iso;
+  const last = new Date(lastISO + 'T00:00:00');
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(last);
+    d.setDate(d.getDate() - i);
+    const iso = toISO(d);
+    const entry = allData.find(r => r.iso === iso) || null;
+    days.push({ iso, date: d, entry });
+  }
+  return days;
+}
+
 function buildDayOfWeekDataBmi(vsYesterday) {
-  const slice = getSlice(7);
-  return slice.map(entry => {
-    const day = entry.date.toLocaleDateString('en-GB', {weekday:'short'});
-    let val = 0;
+  return getLast7Days().map(({ iso, date, entry }) => {
+    const day = date.toLocaleDateString('en-GB', {weekday:'short'});
+    if (!entry) return { day, val: null };
     const currBmi = bmi(entry.weight);
+    let val = null;
     if (vsYesterday) {
-      const ydISO = (() => { const d = new Date(entry.iso + 'T00:00:00'); d.setDate(d.getDate()-1); return toISO(d); })();
+      const ydISO = (() => { const d = new Date(iso + 'T00:00:00'); d.setDate(d.getDate()-1); return toISO(d); })();
       const prev = allData.find(d => d.iso === ydISO);
       if (prev) val = parseFloat((currBmi - bmi(prev.weight)).toFixed(3));
     } else {
-      const lwISO = (() => { const d = new Date(entry.iso + 'T00:00:00'); d.setDate(d.getDate()-7); return toISO(d); })();
+      const lwISO = (() => { const d = new Date(iso + 'T00:00:00'); d.setDate(d.getDate()-7); return toISO(d); })();
       const weekAgo = allData.find(d => d.iso === lwISO);
       if (weekAgo) val = parseFloat((currBmi - bmi(weekAgo.weight)).toFixed(3));
     }
@@ -785,16 +800,16 @@ function buildDatasetsDaily28() {
 }
 
 function buildDayOfWeekDataDaily(vsYesterday) {
-  const slice = getSlice(7);
-  return slice.map(entry => {
-    const day = entry.date.toLocaleDateString('en-GB', {weekday:'short'});
-    let val = 0;
+  return getLast7Days().map(({ iso, date, entry }) => {
+    const day = date.toLocaleDateString('en-GB', {weekday:'short'});
+    if (!entry) return { day, val: null };
+    let val = null;
     if (vsYesterday) {
-      const ydISO = (() => { const d = new Date(entry.iso + 'T00:00:00'); d.setDate(d.getDate()-1); return toISO(d); })();
+      const ydISO = (() => { const d = new Date(iso + 'T00:00:00'); d.setDate(d.getDate()-1); return toISO(d); })();
       const prev = allData.find(d => d.iso === ydISO);
       if (prev) val = parseFloat((entry.weight - prev.weight).toFixed(2));
     } else {
-      const lwISO = (() => { const d = new Date(entry.iso + 'T00:00:00'); d.setDate(d.getDate()-7); return toISO(d); })();
+      const lwISO = (() => { const d = new Date(iso + 'T00:00:00'); d.setDate(d.getDate()-7); return toISO(d); })();
       const weekAgo = allData.find(d => d.iso === lwISO);
       if (weekAgo) val = parseFloat((entry.weight - weekAgo.weight).toFixed(2));
     }
@@ -803,11 +818,12 @@ function buildDayOfWeekDataDaily(vsYesterday) {
 }
 
 function buildDayOfWeekData(vsYesterday) {
-  const slice = getSlice(7);
-  return slice.map(entry => {
+  return getLast7Days().map(({ iso, date, entry }) => {
+    const day = date.toLocaleDateString('en-GB', {weekday:'short'});
+    if (!entry) return { day, val: null };
     const globalIdx = allData.indexOf(entry);
     const currAvg = rolling7(allData, globalIdx);
-    if (!currAvg) return { day: entry.date.toLocaleDateString('en-GB', {weekday:'short'}), val: 0 };
+    if (!currAvg) return { day, val: null };
     let val = 0;
     if (vsYesterday) {
       const ydISO = (() => { const d = new Date(entry.iso + 'T00:00:00'); d.setDate(d.getDate()-1); return toISO(d); })();
@@ -893,7 +909,7 @@ function drawCharts() {
       y: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#888', font: { size: 11 }, callback: v => (v > 0 ? '+' : '') + v.toFixed(1) } }
     }
   });
-  const barColors = (data) => data.map(v => v >= 0 ? 'rgba(226,75,74,0.7)' : 'rgba(99,153,34,0.7)');
+  const barColors = (data) => data.map(v => v === null ? 'transparent' : v >= 0 ? 'rgba(226,75,74,0.7)' : 'rgba(99,153,34,0.7)');
 
   // --- 7-DAY AVERAGE ---
   const { labels: l7a, datasets: d7a, min: min7a, max: max7a } = buildDatasets7Avg();
@@ -1015,7 +1031,7 @@ function buildDataTable() {
     html += `<tr>
       <td>${row.iso}</td>
       <td>${row.weight.toFixed(1)}</td>
-      <td>${avg ? avg.toFixed(1) : '—'}</td>
+      <td>${avg ? avg.toFixed(1) : '-'}</td>
       <td><span class="bmi-cell ${bmiCls}">${b.toFixed(1)}</span></td>
     </tr>`;
   }
