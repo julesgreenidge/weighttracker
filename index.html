@@ -1256,23 +1256,32 @@ function drawCharts() {
 
 
 function buildDataTable() {
-  const recent = [...allData].reverse();
+  // Generate consecutive dates from first to last entry
+  const firstDate = new Date(allData[0].iso + 'T00:00:00');
+  const lastDate = new Date(allData[allData.length - 1].iso + 'T00:00:00');
+  const dates = [];
+  for (let d = new Date(lastDate); d >= firstDate; d.setDate(d.getDate() - 1)) {
+    dates.push(toISO(new Date(d)));
+  }
+
   let html = `<table><thead><tr><th>Date</th><th>7d avg</th><th>7d BMI</th><th>Daily wt</th><th>Daily BMI</th></tr></thead><tbody>`;
-  for (const row of recent) {
-    const globalIdx = allData.indexOf(row);
-    const avg = rolling7ForDate(row.iso);
+  for (const iso of dates) {
+    const entry = allData.find(r => r.iso === iso);
+    const avg = rolling7ForDate(iso);
     const avgBmi = avg ? bmi(avg) : null;
-    const dailyBmi = bmi(row.weight);
+    const dailyBmi = entry ? bmi(entry.weight) : null;
+
     const avgBmiCat = avgBmi ? bmiCategory(avgBmi) : null;
-    const dailyBmiCat = bmiCategory(dailyBmi);
+    const dailyBmiCat = dailyBmi ? bmiCategory(dailyBmi) : null;
     const avgBmiCls = avgBmiCat ? (avgBmiCat.cls === 'tag-normal' ? 'bmi-normal' : avgBmiCat.cls === 'tag-overweight' ? 'bmi-overweight' : avgBmiCat.cls === 'tag-obese' ? 'bmi-obese' : 'bmi-under') : '';
-    const dailyBmiCls = dailyBmiCat.cls === 'tag-normal' ? 'bmi-normal' : dailyBmiCat.cls === 'tag-overweight' ? 'bmi-overweight' : dailyBmiCat.cls === 'tag-obese' ? 'bmi-obese' : 'bmi-under';
+    const dailyBmiCls = dailyBmiCat ? (dailyBmiCat.cls === 'tag-normal' ? 'bmi-normal' : dailyBmiCat.cls === 'tag-overweight' ? 'bmi-overweight' : dailyBmiCat.cls === 'tag-obese' ? 'bmi-obese' : 'bmi-under') : '';
+
     html += `<tr>
-      <td>${row.iso}</td>
+      <td>${iso}</td>
       <td>${avg ? avg.toFixed(1) : '-'}</td>
       <td>${avgBmi ? `<span class="bmi-cell ${avgBmiCls}">${avgBmi.toFixed(1)}</span>` : '-'}</td>
-      <td>${row.weight.toFixed(1)}</td>
-      <td><span class="bmi-cell ${dailyBmiCls}">${dailyBmi.toFixed(1)}</span></td>
+      <td>${entry ? entry.weight.toFixed(1) : '-'}</td>
+      <td>${dailyBmi ? `<span class="bmi-cell ${dailyBmiCls}">${dailyBmi.toFixed(1)}</span>` : '-'}</td>
     </tr>`;
   }
   html += '</tbody></table>';
