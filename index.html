@@ -455,130 +455,174 @@ function buildDashboardHTML() {
 
 </div>
 
-<p class="section-title">7-day average</p>
+<p class="section-title">7-day weight</p>
 
 <div class="chart-card">
-  <h3>7-day rolling average - last 7 days</h3>
+  <h3>7-day rolling average — last 7 days</h3>
   <div class="legend">
     <span><span class="legend-dot" style="background:var(--chart-line)"></span>This week</span>
     <span><span class="legend-dot" style="background:var(--chart-line-secondary)"></span>Same week last week</span>
     ${target ? '<span><span class="legend-dot" style="background:#ba7517"></span>Target</span>' : ''}
   </div>
-  <div class="chart-wrap" style="height:220px"><canvas id="chart7avg" role="img" aria-label="7-day average last 7 days">7-day average last 7 days.</canvas></div>
+  <div class="chart-wrap" style="height:220px"><canvas id="chart7avg"></canvas></div>
 </div>
 
 <div class="chart-card">
-  <h3>7-day rolling average - last 28 days</h3>
+  <h3>7-day rolling average — last 28 days</h3>
   <div class="legend">
     <span><span class="legend-dot" style="background:var(--chart-line)"></span>7-day average</span>
     ${target ? '<span><span class="legend-dot" style="background:#ba7517"></span>Target</span>' : ''}
   </div>
-  <div class="chart-wrap" style="height:220px"><canvas id="chart28" role="img" aria-label="7-day average last 28 days">7-day average last 28 days.</canvas></div>
+  <div class="chart-wrap" style="height:220px"><canvas id="chart28"></canvas></div>
 </div>
 
 <div class="two-col-grid">
   <div class="chart-card" style="margin-bottom:0">
-    <h3>7-day avg change vs last week (by day)</h3>
-    <div class="chart-wrap" style="height:200px"><canvas id="chartAvgDayWeek" role="img" aria-label="7-day avg change vs last week by day">7-day avg change vs last week by day.</canvas></div>
+    <h3>Avg change vs last week (by day)</h3>
+    <div class="chart-wrap" style="height:200px"><canvas id="chartAvgDayWeek"></canvas></div>
   </div>
   <div class="chart-card" style="margin-bottom:0">
-    <h3>7-day avg change vs yesterday (by day)</h3>
-    <div class="chart-wrap" style="height:200px"><canvas id="chartAvgDayYest" role="img" aria-label="7-day avg change vs yesterday by day">7-day avg change vs yesterday by day.</canvas></div>
+    <h3>Avg change vs yesterday (by day)</h3>
+    <div class="chart-wrap" style="height:200px"><canvas id="chartAvgDayYest"></canvas></div>
   </div>
 </div>
 
 <div class="chart-card">
-  <h3>7-day rolling average - all time</h3>
+  <h3>7-day rolling average — all time</h3>
   <div class="legend">
     <span><span class="legend-dot" style="background:var(--chart-line)"></span>7-day average</span>
     ${target ? '<span><span class="legend-dot" style="background:#ba7517"></span>Target</span>' : ''}
   </div>
-  <div class="chart-wrap" style="height:240px"><canvas id="chartAll" role="img" aria-label="All-time 7-day average">All-time 7-day average.</canvas></div>
+  <div class="chart-wrap" style="height:240px"><canvas id="chartAll"></canvas></div>
 </div>
 
-<p class="section-title">BMI</p>
+<p class="section-title">7-day BMI</p>
 
 <div class="chart-card">
-  <h3>BMI - last 7 days</h3>
+  <h3>BMI — last 7 days</h3>
   <div class="legend">
     <span><span class="legend-dot" style="background:var(--chart-line)"></span>This week</span>
     <span><span class="legend-dot" style="background:var(--chart-line-secondary)"></span>Same week last week</span>
   </div>
-  <div class="chart-wrap" style="height:220px"><canvas id="chartBmi7" role="img" aria-label="BMI last 7 days">BMI last 7 days.</canvas></div>
+  <div class="chart-wrap" style="height:220px"><canvas id="chartBmi7"></canvas></div>
 </div>
 
 <div class="chart-card">
-  <h3>BMI - last 28 days</h3>
+  <h3>BMI — last 28 days</h3>
   <div class="legend">
     <span><span class="legend-dot" style="background:var(--chart-line)"></span>7-day BMI</span>
-    <span><span class="legend-dot" style="background:#639922"></span>Normal (18.5–25)</span>
-    <span><span class="legend-dot" style="background:#ba7517"></span>Overweight (25–30)</span>
+    <span><span class="legend-dot" style="background:#639922"></span>Normal (18.5-25)</span>
+    <span><span class="legend-dot" style="background:#ba7517"></span>Overweight (25-30)</span>
     <span><span class="legend-dot" style="background:#e24b4a"></span>Obese (30+)</span>
   </div>
-  <div class="chart-wrap" style="height:220px"><canvas id="chartBmi28" role="img" aria-label="BMI last 28 days">BMI last 28 days.</canvas></div>
+  <div class="chart-wrap" style="height:220px"><canvas id="chartBmi28"></canvas></div>
 </div>
 
 <div class="two-col-grid">
   <div class="chart-card" style="margin-bottom:0">
     <h3>BMI change vs last week (by day)</h3>
-    <div class="chart-wrap" style="height:200px"><canvas id="chartBmiDayWeek" role="img" aria-label="BMI change vs last week by day">BMI change vs last week by day.</canvas></div>
+    <div class="chart-wrap" style="height:200px"><canvas id="chartBmiDayWeek"></canvas></div>
   </div>
   <div class="chart-card" style="margin-bottom:0">
     <h3>BMI change vs yesterday (by day)</h3>
-    <div class="chart-wrap" style="height:200px"><canvas id="chartBmiDayYest" role="img" aria-label="BMI change vs yesterday by day">BMI change vs yesterday by day.</canvas></div>
+    <div class="chart-wrap" style="height:200px"><canvas id="chartBmiDayYest"></canvas></div>
   </div>
 </div>
 
 <div class="chart-card">
-  <h3>BMI - all time</h3>
+  <h3>BMI — all time</h3>
   <div class="legend">
     <span><span class="legend-dot" style="background:var(--chart-line)"></span>7-day BMI</span>
-    <span><span class="legend-dot" style="background:#639922"></span>Normal (18.5–25)</span>
-    <span><span class="legend-dot" style="background:#ba7517"></span>Overweight (25–30)</span>
+    <span><span class="legend-dot" style="background:#639922"></span>Normal (18.5-25)</span>
+    <span><span class="legend-dot" style="background:#ba7517"></span>Overweight (25-30)</span>
     <span><span class="legend-dot" style="background:#e24b4a"></span>Obese (30+)</span>
   </div>
-  <div class="chart-wrap" style="height:240px"><canvas id="chartBmiAll" role="img" aria-label="BMI all time">BMI all time.</canvas></div>
+  <div class="chart-wrap" style="height:240px"><canvas id="chartBmiAll"></canvas></div>
 </div>
 
 <p class="section-title">Daily weight</p>
 
 <div class="chart-card">
-  <h3>Daily weight - last 7 days</h3>
+  <h3>Daily weight — last 7 days</h3>
   <div class="legend">
     <span><span class="legend-dot" style="background:var(--chart-line)"></span>This week</span>
     <span><span class="legend-dot" style="background:var(--chart-line-secondary)"></span>Same day last week</span>
     ${target ? '<span><span class="legend-dot" style="background:#ba7517"></span>Target</span>' : ''}
   </div>
-  <div class="chart-wrap" style="height:220px"><canvas id="chart7daily" role="img" aria-label="Daily weight last 7 days">Daily weight last 7 days.</canvas></div>
+  <div class="chart-wrap" style="height:220px"><canvas id="chart7daily"></canvas></div>
 </div>
 
 <div class="chart-card">
-  <h3>Daily weight - last 28 days</h3>
+  <h3>Daily weight — last 28 days</h3>
   <div class="legend">
     <span><span class="legend-dot" style="background:var(--chart-line)"></span>Daily weight</span>
     ${target ? '<span><span class="legend-dot" style="background:#ba7517"></span>Target</span>' : ''}
   </div>
-  <div class="chart-wrap" style="height:220px"><canvas id="chartDaily28" role="img" aria-label="Daily weight last 28 days">Daily weight last 28 days.</canvas></div>
+  <div class="chart-wrap" style="height:220px"><canvas id="chartDaily28"></canvas></div>
 </div>
 
 <div class="two-col-grid">
   <div class="chart-card" style="margin-bottom:0">
     <h3>Daily weight change vs last week (by day)</h3>
-    <div class="chart-wrap" style="height:200px"><canvas id="chartDayWeek" role="img" aria-label="Daily weight change vs last week by day">Daily weight change vs last week by day.</canvas></div>
+    <div class="chart-wrap" style="height:200px"><canvas id="chartDayWeek"></canvas></div>
   </div>
   <div class="chart-card" style="margin-bottom:0">
     <h3>Daily weight change vs yesterday (by day)</h3>
-    <div class="chart-wrap" style="height:200px"><canvas id="chartDayYest" role="img" aria-label="Daily weight change vs yesterday by day">Daily weight change vs yesterday by day.</canvas></div>
+    <div class="chart-wrap" style="height:200px"><canvas id="chartDayYest"></canvas></div>
   </div>
 </div>
 
 <div class="chart-card">
-  <h3>Daily weight - all time</h3>
+  <h3>Daily weight — all time</h3>
   <div class="legend">
     <span><span class="legend-dot" style="background:var(--chart-line)"></span>Daily weight</span>
     ${target ? '<span><span class="legend-dot" style="background:#ba7517"></span>Target</span>' : ''}
   </div>
-  <div class="chart-wrap" style="height:240px"><canvas id="chartDailyAll" role="img" aria-label="Daily weight all time">Daily weight all time.</canvas></div>
+  <div class="chart-wrap" style="height:240px"><canvas id="chartDailyAll"></canvas></div>
+</div>
+
+<p class="section-title">Daily BMI</p>
+
+<div class="chart-card">
+  <h3>Daily BMI — last 7 days</h3>
+  <div class="legend">
+    <span><span class="legend-dot" style="background:var(--chart-line)"></span>This week</span>
+    <span><span class="legend-dot" style="background:var(--chart-line-secondary)"></span>Same day last week</span>
+  </div>
+  <div class="chart-wrap" style="height:220px"><canvas id="chartDailyBmi7"></canvas></div>
+</div>
+
+<div class="chart-card">
+  <h3>Daily BMI — last 28 days</h3>
+  <div class="legend">
+    <span><span class="legend-dot" style="background:var(--chart-line)"></span>Daily BMI</span>
+    <span><span class="legend-dot" style="background:#639922"></span>Normal (18.5-25)</span>
+    <span><span class="legend-dot" style="background:#ba7517"></span>Overweight (25-30)</span>
+    <span><span class="legend-dot" style="background:#e24b4a"></span>Obese (30+)</span>
+  </div>
+  <div class="chart-wrap" style="height:220px"><canvas id="chartDailyBmi28"></canvas></div>
+</div>
+
+<div class="two-col-grid">
+  <div class="chart-card" style="margin-bottom:0">
+    <h3>Daily BMI change vs last week (by day)</h3>
+    <div class="chart-wrap" style="height:200px"><canvas id="chartDailyBmiDayWeek"></canvas></div>
+  </div>
+  <div class="chart-card" style="margin-bottom:0">
+    <h3>Daily BMI change vs yesterday (by day)</h3>
+    <div class="chart-wrap" style="height:200px"><canvas id="chartDailyBmiDayYest"></canvas></div>
+  </div>
+</div>
+
+<div class="chart-card">
+  <h3>Daily BMI — all time</h3>
+  <div class="legend">
+    <span><span class="legend-dot" style="background:var(--chart-line)"></span>Daily BMI</span>
+    <span><span class="legend-dot" style="background:#639922"></span>Normal (18.5-25)</span>
+    <span><span class="legend-dot" style="background:#ba7517"></span>Overweight (25-30)</span>
+    <span><span class="legend-dot" style="background:#e24b4a"></span>Obese (30+)</span>
+  </div>
+  <div class="chart-wrap" style="height:240px"><canvas id="chartDailyBmiAll"></canvas></div>
 </div>
 
 <p class="section-title" style="margin-top:1.5rem">All readings</p>
@@ -606,9 +650,9 @@ function findClosestBefore(isoDate, daysBack) {
 }
 
 function buildDatasets7Daily() {
-  const slice = getSlice(7);
+  const slice = get7DaySlice();
   const labels = slice.map(d => d.iso.slice(5));
-  const thisWeek = slice.map(d => parseFloat(d.weight.toFixed(2)));
+  const thisWeek = slice.map(d => d.weight != null ? parseFloat(d.weight.toFixed(2)) : null);
   const lastWeek = slice.map(d => {
     const match = findClosestBefore(d.iso, 7);
     return match ? parseFloat(match.weight.toFixed(2)) : null;
@@ -619,16 +663,23 @@ function buildDatasets7Daily() {
     { label: 'Same day last week', data: lastWeek, borderColor: chartLineSecondary(), backgroundColor: 'rgba(175,169,236,0.05)', borderWidth: 1.5, pointRadius: 3, fill: false, tension: 0.3, borderDash: [5,4] }
   ];
   if (target) datasets.push({ label: 'Target', data: Array(labels.length).fill(target), borderColor: '#ba7517', borderWidth: 1.5, pointRadius: 0, fill: false, borderDash: [6,4] });
-  const allVals = [...thisWeek, ...lastWeek].filter(v => v != null);
+  const allVals = [...thisWeek, ...lastWeek].filter(v => v != null && !isNaN(v));
   return { labels, datasets, min: Math.min(...allVals), max: Math.max(...allVals) };
 }
 
 function buildDatasets7Avg() {
-  const slice = getSlice(7);
+  const slice = get7DaySlice();
   const labels = slice.map(d => d.iso.slice(5));
-  const thisWeekAvg = slice.map((_, i) => {
-    const globalIdx = allData.indexOf(slice[i]);
-    const v = rolling7(allData, globalIdx);
+  const thisWeekAvg = slice.map(d => {
+    // For rolling avg, find the last available entry on or before this date
+    const isoDate = d.iso;
+    const candidates = allData.filter(r => r.iso <= isoDate);
+    if (!candidates.length) return null;
+    const closestIdx = allData.indexOf(candidates[candidates.length - 1]);
+    // Only compute if the closest entry is within 7 days
+    const diffDays = Math.round((new Date(isoDate + 'T00:00:00') - allData[closestIdx].date) / 86400000);
+    if (diffDays > 6) return null;
+    const v = rolling7(allData, closestIdx);
     return v ? parseFloat(v.toFixed(2)) : null;
   });
   const lastWeekAvg = slice.map(d => {
@@ -644,23 +695,29 @@ function buildDatasets7Avg() {
     { label: 'Same week last week', data: lastWeekAvg, borderColor: chartLineSecondary(), backgroundColor: 'rgba(175,169,236,0.05)', borderWidth: 1.5, pointRadius: 3, fill: false, tension: 0.3, borderDash: [5,4] }
   ];
   if (target) datasets.push({ label: 'Target', data: Array(labels.length).fill(target), borderColor: '#ba7517', borderWidth: 1.5, pointRadius: 0, fill: false, borderDash: [6,4] });
-  const allVals = [...thisWeekAvg, ...lastWeekAvg].filter(v => v != null);
+  const allVals = [...thisWeekAvg, ...lastWeekAvg].filter(v => v != null && !isNaN(v));
   return { labels, datasets, min: Math.min(...allVals), max: Math.max(...allVals) };
 }
 
 function buildDatasets28() {
-  const slice = getSlice(28);
+  const slice = getConsecutiveSlice(28);
   const labels = slice.map(d => d.iso.slice(5));
-  const avgs = slice.map((_, i) => {
-    const globalIdx = allData.indexOf(slice[i]);
-    return parseFloat(rolling7(allData, globalIdx).toFixed(2));
+  const avgs = slice.map(d => {
+    const candidates = allData.filter(r => r.iso <= d.iso);
+    if (!candidates.length) return null;
+    const closestIdx = allData.indexOf(candidates[candidates.length - 1]);
+    const diffDays = Math.round((new Date(d.iso + 'T00:00:00') - allData[closestIdx].date) / 86400000);
+    if (diffDays > 6) return null;
+    const v = rolling7(allData, closestIdx);
+    return v ? parseFloat(v.toFixed(2)) : null;
   });
   const datasets = [
     ...bmiBandDatasets(labels.length),
     { label: '7-day avg', data: avgs, borderColor: chartLine(), backgroundColor: chartLineBg(), borderWidth: 2, pointRadius: 2, fill: false, tension: 0.3 }
   ];
   if (target) datasets.push({ label: 'Target', data: Array(labels.length).fill(target), borderColor: '#ba7517', borderWidth: 1.5, pointRadius: 0, fill: false, borderDash: [6,4] });
-  return { labels, datasets, min: Math.min(...avgs), max: Math.max(...avgs) };
+  const validAvgs28 = avgs.filter(v => v != null);
+  return { labels, datasets, min: Math.min(...validAvgs28), max: Math.max(...validAvgs28) };
 }
 
 function buildDatasetsAll() {
@@ -696,10 +753,12 @@ function buildDatasetsBmi() {
 }
 
 function buildDatasetsBmi7() {
-  const slice = getSlice(7);
+  const slice = get7DaySlice();
   const labels = slice.map(d => d.iso.slice(5));
-  const thisWeekBmi = slice.map((_, i) => {
-    const globalIdx = allData.indexOf(slice[i]);
+  const thisWeekBmi = slice.map(d => {
+    const entry = allData.find(r => r.iso === d.iso);
+    if (!entry) return null;
+    const globalIdx = allData.indexOf(entry);
     const avg = rolling7(allData, globalIdx);
     return avg ? parseFloat(bmi(avg).toFixed(3)) : null;
   });
@@ -710,16 +769,20 @@ function buildDatasetsBmi7() {
     const avg = rolling7(allData, idx);
     return avg ? parseFloat(bmi(avg).toFixed(3)) : null;
   });
-  const allVals = [...thisWeekBmi, ...lastWeekBmi].filter(v => v != null);
+  const allVals = [...thisWeekBmi, ...lastWeekBmi].filter(v => v != null && !isNaN(v));
   return { labels, thisWeekBmi, lastWeekBmi, min: Math.min(...allVals), max: Math.max(...allVals) };
 }
 
 function buildDatasetsBmi28() {
-  const slice = getSlice(28);
+  const slice = getConsecutiveSlice(28);
   const labels = slice.map(d => d.iso.slice(5));
-  const bmiVals = slice.map((_, i) => {
-    const globalIdx = allData.indexOf(slice[i]);
-    const avg = rolling7(allData, globalIdx);
+  const bmiVals = slice.map(d => {
+    const candidates = allData.filter(r => r.iso <= d.iso);
+    if (!candidates.length) return null;
+    const closestIdx = allData.indexOf(candidates[candidates.length - 1]);
+    const diffDays = Math.round((new Date(d.iso + 'T00:00:00') - allData[closestIdx].date) / 86400000);
+    if (diffDays > 6) return null;
+    const avg = rolling7(allData, closestIdx);
     return avg ? parseFloat(bmi(avg).toFixed(3)) : null;
   });
   return { labels, bmiVals };
@@ -736,6 +799,38 @@ function buildDatasetsBmiAll() {
     return avg ? parseFloat(bmi(avg).toFixed(3)) : null;
   });
   return { labels, bmiVals };
+}
+
+function getConsecutiveSlice(days) {
+  // Always returns exactly N consecutive days ending on the last data date
+  const lastISO = allData[allData.length - 1].iso;
+  const last = new Date(lastISO + 'T00:00:00');
+  const result = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(last);
+    d.setDate(d.getDate() - i);
+    const iso = toISO(d);
+    const entry = allData.find(r => r.iso === iso) || null;
+    result.push(entry || { iso, date: d, weight: null });
+  }
+  return result;
+}
+
+function get7DaySlice() {
+  // Always returns exactly 7 consecutive days ending on the last data date
+  // with null weight/entry for missing days
+  const lastISO = allData[allData.length - 1].iso;
+  const last = new Date(lastISO + 'T00:00:00');
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(last);
+    d.setDate(d.getDate() - i);
+    const iso = toISO(d);
+    const entry = allData.find(r => r.iso === iso) || null;
+    // Create a synthetic entry with null weight if missing
+    days.push(entry || { iso, date: d, weight: null });
+  }
+  return days;
 }
 
 function getLast7Days() {
@@ -788,15 +883,16 @@ function buildDatasetsDailyAll() {
 }
 
 function buildDatasetsDaily28() {
-  const slice = getSlice(28);
+  const slice = getConsecutiveSlice(28);
   const labels = slice.map(d => d.iso.slice(5));
-  const weights = slice.map(d => parseFloat(d.weight.toFixed(2)));
+  const weights = slice.map(d => d.weight != null ? parseFloat(d.weight.toFixed(2)) : null);
   const datasets = [
     ...bmiBandDatasets(labels.length),
     { label: 'Daily weight', data: weights, borderColor: chartLine(), backgroundColor: chartLineBg(), borderWidth: 1.5, pointRadius: 2, fill: false, tension: 0.3 }
   ];
   if (target) datasets.push({ label: 'Target', data: Array(labels.length).fill(target), borderColor: '#ba7517', borderWidth: 1.5, pointRadius: 0, fill: false, borderDash: [6,4] });
-  return { labels, datasets, min: Math.min(...weights), max: Math.max(...weights) };
+  const validWeights28 = weights.filter(v => v != null);
+  return { labels, datasets, min: Math.min(...validWeights28), max: Math.max(...validWeights28) };
 }
 
 function buildDayOfWeekDataDaily(vsYesterday) {
@@ -896,14 +992,84 @@ function destroyChart(id) {
   if (charts[id]) { charts[id].destroy(); delete charts[id]; }
 }
 
+function buildDatasetsDailyBmi7() {
+  const slice = get7DaySlice();
+  const labels = slice.map(d => d.iso.slice(5));
+  const thisWeek = slice.map(d => d.weight != null ? parseFloat(bmi(d.weight).toFixed(3)) : null);
+  const lastWeek = slice.map(d => {
+    const match = findClosestBefore(d.iso, 7);
+    return match ? parseFloat(bmi(match.weight).toFixed(3)) : null;
+  });
+  const allVals = [...thisWeek, ...lastWeek].filter(v => v != null && !isNaN(v));
+  const datasets = [
+    { label: 'This week', data: thisWeek, borderColor: chartLine(), borderWidth: 2, pointRadius: 4, fill: false, tension: 0.3 },
+    { label: 'Same day last week', data: lastWeek, borderColor: chartLineSecondary(), borderWidth: 1.5, pointRadius: 3, fill: false, tension: 0.3, borderDash: [5,4] }
+  ];
+  return { labels, datasets, min: Math.min(...allVals), max: Math.max(...allVals) };
+}
+
+function buildDatasetsDailyBmi28() {
+  const slice = getConsecutiveSlice(28);
+  const labels = slice.map(d => d.iso.slice(5));
+  const bmiVals = slice.map(d => d.weight != null ? parseFloat(bmi(d.weight).toFixed(3)) : null);
+  const validBmi = bmiVals.filter(v => v != null);
+  const minB = parseFloat((Math.min(...validBmi) - 0.25).toFixed(2));
+  const maxB = parseFloat((Math.max(...validBmi) + 0.25).toFixed(2));
+  const n = labels.length;
+  const datasets = [
+    { label: 'Daily BMI', data: bmiVals, borderColor: chartLine(), borderWidth: 1.5, pointRadius: 2, fill: false, tension: 0.3 },
+    { label: '_obese', data: Array(n).fill(maxB + 5), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: 30 }, backgroundColor: `rgba(226,75,74,0.15)` },
+    { label: '_overweight', data: Array(n).fill(30), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: 25 }, backgroundColor: `rgba(186,117,23,0.15)` },
+    { label: '_normal', data: Array(n).fill(25), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: minB - 5 }, backgroundColor: `rgba(99,153,34,0.15)` }
+  ];
+  return { labels, datasets, min: minB, max: maxB };
+}
+
+function buildDatasetsDailyBmiAll() {
+  const slice = getSlice('all');
+  const step = Math.max(1, Math.floor(slice.length / 300));
+  const sampled = slice.filter((_, i) => i % step === 0 || i === slice.length - 1);
+  const labels = sampled.map(d => d.iso.slice(0,7));
+  const bmiVals = sampled.map(d => parseFloat(bmi(d.weight).toFixed(3)));
+  const validBmi = bmiVals.filter(v => v != null);
+  const minB = parseFloat((Math.min(...validBmi) - 1).toFixed(2));
+  const maxB = parseFloat((Math.max(...validBmi) + 1).toFixed(2));
+  const n = labels.length;
+  const datasets = [
+    { label: 'Daily BMI', data: bmiVals, borderColor: chartLine(), borderWidth: 1.5, pointRadius: 0, fill: false, tension: 0.2 },
+    { label: '_obese', data: Array(n).fill(maxB + 5), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: 30 }, backgroundColor: `rgba(226,75,74,0.15)` },
+    { label: '_overweight', data: Array(n).fill(30), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: 25 }, backgroundColor: `rgba(186,117,23,0.15)` },
+    { label: '_normal', data: Array(n).fill(25), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: minB - 5 }, backgroundColor: `rgba(99,153,34,0.15)` }
+  ];
+  return { labels, datasets, min: minB, max: maxB };
+}
+
+function buildDayOfWeekDataDailyBmi(vsYesterday) {
+  return getLast7Days().map(({ iso, date, entry }) => {
+    const day = date.toLocaleDateString('en-GB', {weekday:'short'});
+    if (!entry) return { day, val: null };
+    const currBmi = bmi(entry.weight);
+    let val = null;
+    if (vsYesterday) {
+      const ydISO = (() => { const d = new Date(iso + 'T00:00:00'); d.setDate(d.getDate()-1); return toISO(d); })();
+      const prev = allData.find(d => d.iso === ydISO);
+      if (prev) val = parseFloat((currBmi - bmi(prev.weight)).toFixed(3));
+    } else {
+      const lwISO = (() => { const d = new Date(iso + 'T00:00:00'); d.setDate(d.getDate()-7); return toISO(d); })();
+      const weekAgo = allData.find(d => d.iso === lwISO);
+      if (weekAgo) val = parseFloat((currBmi - bmi(weekAgo.weight)).toFixed(3));
+    }
+    return { day, val };
+  });
+}
+
 function drawCharts() {
   Object.keys(charts).forEach(id => { if (charts[id]) charts[id].destroy(); });
   charts = {};
 
-  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   const barOpts = (data) => ({
     responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => (ctx.parsed.y >= 0 ? '+' : '') + ctx.parsed.y.toFixed(1) } } },
+    plugins: { legend: { display: false }, tooltip: { filter: ctx => ctx.parsed.y !== null && ctx.raw !== null, callbacks: { label: ctx => (ctx.parsed.y >= 0 ? '+' : '') + ctx.parsed.y.toFixed(1) } } },
     scales: {
       x: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#888', font: { size: 11 } } },
       y: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#888', font: { size: 11 }, callback: v => (v > 0 ? '+' : '') + v.toFixed(1) } }
@@ -911,113 +1077,158 @@ function drawCharts() {
   });
   const barColors = (data) => data.map(v => v === null ? 'transparent' : v >= 0 ? 'rgba(226,75,74,0.7)' : 'rgba(99,153,34,0.7)');
 
-  // --- 7-DAY AVERAGE ---
-  const { labels: l7a, datasets: d7a, min: min7a, max: max7a } = buildDatasets7Avg();
-  const allVals7a = [...d7a.filter(d => d.label==='This week'||d.label==='Same week last week').flatMap(d => d.data)].filter(v => v!=null);
-  const adj7aMin = Math.min(...allVals7a);
-  const adj7aMax = Math.max(...allVals7a);
-  charts.c7avg = new Chart($('chart7avg'), { type: 'line', data: { labels: l7a, datasets: d7a }, options: makeChartOptions(adj7aMin, adj7aMax, {}, 0.2) });
+  const bmiLineOpts = (min, max, step=0.1) => ({
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { filter: ctx => ctx.dataset.label && !ctx.dataset.label.startsWith('_'), callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)}` } } },
+    scales: { x: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#888', font: { size: 11 }, maxTicksLimit: 8 } }, y: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#888', font: { size: 11 }, callback: v => v.toFixed(1) }, min, max } }
+  });
 
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const bandOpacity = dark ? 0.35 : 0.15;
+  const bmiBands = (n, maxVal) => [
+    { label: '_obese', data: Array(n).fill(maxVal + 10), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: 30 }, backgroundColor: `rgba(226,75,74,${bandOpacity})` },
+    { label: '_overweight', data: Array(n).fill(30), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: 25 }, backgroundColor: `rgba(186,117,23,${bandOpacity})` },
+    { label: '_normal', data: Array(n).fill(25), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: 0 }, backgroundColor: `rgba(99,153,34,${bandOpacity})` }
+  ];
+
+  // ============================================================
+  // SECTION 1: 7-DAY WEIGHT
+  // ============================================================
+
+  // 7-day avg last 7 days
+  const { labels: l7a, datasets: d7a } = buildDatasets7Avg();
+  const vals7a = [...d7a.filter(d => d.label==='This week'||d.label==='Same week last week').flatMap(d => d.data)].filter(v => v!=null && !isNaN(v));
+  const opts7a = makeChartOptions(Math.min(...vals7a), Math.max(...vals7a), {}, 0.2);
+  opts7a.spanGaps = true;
+  charts.c7avg = new Chart($('chart7avg'), { type: 'line', data: { labels: l7a, datasets: d7a }, options: opts7a });
+
+  // 7-day avg last 28 days
   const { labels: l28, datasets: d28, min: min28, max: max28 } = buildDatasets28();
-  charts.c28 = new Chart($('chart28'), { type: 'line', data: { labels: l28, datasets: d28 }, options: makeChartOptions(min28, max28, {}, 0.4) });
+  const opts28 = makeChartOptions(min28, max28, {}, 0.4);
+  opts28.spanGaps = true;
+  charts.c28 = new Chart($('chart28'), { type: 'line', data: { labels: l28, datasets: d28 }, options: opts28 });
 
+  // 7-day avg bar charts
   const avgDayWeekRaw = buildDayOfWeekData(false);
-  const avgDayWeekLabels = avgDayWeekRaw.map(r => r.day);
-  const avgDayWeekVals = avgDayWeekRaw.map(r => r.val);
-  charts.cAvgDayWeek = new Chart($('chartAvgDayWeek'), { type: 'bar', data: { labels: avgDayWeekLabels, datasets: [{ data: avgDayWeekVals, backgroundColor: barColors(avgDayWeekVals), borderRadius: 4 }] }, options: barOpts(avgDayWeekVals) });
+  charts.cAvgDayWeek = new Chart($('chartAvgDayWeek'), { type: 'bar', data: { labels: avgDayWeekRaw.map(r=>r.day), datasets: [{ data: avgDayWeekRaw.map(r=>r.val), backgroundColor: barColors(avgDayWeekRaw.map(r=>r.val)), borderRadius: 4 }] }, options: barOpts(avgDayWeekRaw.map(r=>r.val)) });
 
   const avgDayYestRaw = buildDayOfWeekData(true);
-  const avgDayYestLabels = avgDayYestRaw.map(r => r.day);
-  const avgDayYestVals = avgDayYestRaw.map(r => r.val);
-  charts.cAvgDayYest = new Chart($('chartAvgDayYest'), { type: 'bar', data: { labels: avgDayYestLabels, datasets: [{ data: avgDayYestVals, backgroundColor: barColors(avgDayYestVals), borderRadius: 4 }] }, options: barOpts(avgDayYestVals) });
+  charts.cAvgDayYest = new Chart($('chartAvgDayYest'), { type: 'bar', data: { labels: avgDayYestRaw.map(r=>r.day), datasets: [{ data: avgDayYestRaw.map(r=>r.val), backgroundColor: barColors(avgDayYestRaw.map(r=>r.val)), borderRadius: 4 }] }, options: barOpts(avgDayYestRaw.map(r=>r.val)) });
 
+  // 7-day avg all time
   const { labels: lAll, datasets: dAll, min: minAll, max: maxAll } = buildDatasetsAll();
   charts.cAll = new Chart($('chartAll'), { type: 'line', data: { labels: lAll, datasets: dAll }, options: makeChartOptions(minAll, maxAll) });
 
-  // --- BMI ---
-  const { labels: lBmi7, thisWeekBmi, lastWeekBmi, min: minBmi7, max: maxBmi7 } = buildDatasetsBmi7();
-  const bmi7pad = 0.5;
+  // ============================================================
+  // SECTION 2: 7-DAY BMI
+  // ============================================================
+
+  // 7-day BMI last 7 days
+  const { labels: lBmi7, thisWeekBmi, lastWeekBmi } = buildDatasetsBmi7();
   const allBmi7Vals = [...thisWeekBmi, ...lastWeekBmi].filter(v => v != null);
   const bmi7Min = parseFloat((Math.min(...allBmi7Vals) - 0.1).toFixed(2));
   const bmi7Max = parseFloat((Math.max(...allBmi7Vals) + 0.1).toFixed(2));
-  const bmi7BandDatasets = [
-    { label: '_red', data: Array(lBmi7.length).fill(50), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: 30 }, backgroundColor: `rgba(226,75,74,${document.documentElement.getAttribute('data-theme')==='dark'?0.35:0.15})` },
-    { label: '_amber', data: Array(lBmi7.length).fill(30), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: 25 }, backgroundColor: `rgba(186,117,23,${document.documentElement.getAttribute('data-theme')==='dark'?0.35:0.15})` },
-    { label: '_green', data: Array(lBmi7.length).fill(25), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: 0 }, backgroundColor: `rgba(99,153,34,${document.documentElement.getAttribute('data-theme')==='dark'?0.35:0.15})` }
-  ];
-  charts.cBmi7 = new Chart($('chartBmi7'), {
-    type: 'line',
-    data: { labels: lBmi7, datasets: [
-      ...bmi7BandDatasets,
-      { label: 'This week', data: thisWeekBmi, borderColor: chartLine(), borderWidth: 2, pointRadius: 4, fill: false, tension: 0.3 },
-      { label: 'Same week last week', data: lastWeekBmi, borderColor: chartLineSecondary(), borderWidth: 1.5, pointRadius: 3, fill: false, tension: 0.3, borderDash: [5,4] }
-    ]},
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { filter: ctx => !ctx.dataset.label.startsWith('_'), callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)}` } } }, scales: { x: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#888', font: { size: 11 } } }, y: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#888', font: { size: 11 }, callback: v => v.toFixed(1) }, min: bmi7Min, max: bmi7Max } } }
-  });
+  const bmi7opts = bmiLineOpts(bmi7Min, bmi7Max);
+  bmi7opts.spanGaps = true;
+  charts.cBmi7 = new Chart($('chartBmi7'), { type: 'line', data: { labels: lBmi7, datasets: [
+    ...bmiBands(lBmi7.length, bmi7Max),
+    { label: 'This week', data: thisWeekBmi, borderColor: chartLine(), borderWidth: 2, pointRadius: 4, fill: false, tension: 0.3 },
+    { label: 'Same week last week', data: lastWeekBmi, borderColor: chartLineSecondary(), borderWidth: 1.5, pointRadius: 3, fill: false, tension: 0.3, borderDash: [5,4] }
+  ]}, options: bmi7opts });
 
+  // 7-day BMI last 28 days
   const { labels: lBmi28, bmiVals: bmiVals28 } = buildDatasetsBmi28();
-  const minBmi28 = parseFloat((Math.min(...bmiVals28.filter(Boolean)) - 0.25).toFixed(2));
-  const maxBmi28 = parseFloat((Math.max(...bmiVals28.filter(Boolean)) + 0.25).toFixed(2));
-  charts.cBmi28 = new Chart($('chartBmi28'), {
-    type: 'line',
-    data: { labels: lBmi28, datasets: [
-      { label: '7-day BMI', data: bmiVals28, borderColor: chartLine(), borderWidth: 2, pointRadius: 2, fill: false, tension: 0.3 },
-      { label: '_obese', data: Array(lBmi28.length).fill(maxBmi28), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: 30 }, backgroundColor: 'rgba(226,75,74,0.15)' },
-      { label: '_overweight', data: Array(lBmi28.length).fill(30), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: 25 }, backgroundColor: 'rgba(186,117,23,0.15)' },
-      { label: '_normal', data: Array(lBmi28.length).fill(25), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: minBmi28 }, backgroundColor: 'rgba(99,153,34,0.15)' }
-    ]},
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { filter: ctx => !ctx.dataset.label.startsWith('_'), callbacks: { label: ctx => `BMI: ${ctx.parsed.y.toFixed(2)}` } } }, scales: { x: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#888', font: { size: 11 }, maxTicksLimit: 8 } }, y: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#888', font: { size: 11 }, callback: v => v.toFixed(1) }, min: minBmi28, max: maxBmi28 } } }
-  });
+  const validBmi28 = bmiVals28.filter(Boolean);
+  const minBmi28 = parseFloat((Math.min(...validBmi28) - 0.25).toFixed(2));
+  const maxBmi28 = parseFloat((Math.max(...validBmi28) + 0.25).toFixed(2));
+  const bmi28opts = bmiLineOpts(minBmi28, maxBmi28);
+  bmi28opts.spanGaps = true;
+  charts.cBmi28 = new Chart($('chartBmi28'), { type: 'line', data: { labels: lBmi28, datasets: [
+    ...bmiBands(lBmi28.length, maxBmi28),
+    { label: '7-day BMI', data: bmiVals28, borderColor: chartLine(), borderWidth: 2, pointRadius: 2, fill: false, tension: 0.3 }
+  ]}, options: bmi28opts });
 
+  // 7-day BMI bar charts
   const bmiDayWeekRaw = buildDayOfWeekDataBmi(false);
-  const bmiDayWeekLabels = bmiDayWeekRaw.map(r => r.day);
-  const bmiDayWeekVals = bmiDayWeekRaw.map(r => r.val);
-  charts.cBmiDayWeek = new Chart($('chartBmiDayWeek'), { type: 'bar', data: { labels: bmiDayWeekLabels, datasets: [{ data: bmiDayWeekVals, backgroundColor: barColors(bmiDayWeekVals), borderRadius: 4 }] }, options: barOpts(bmiDayWeekVals) });
+  charts.cBmiDayWeek = new Chart($('chartBmiDayWeek'), { type: 'bar', data: { labels: bmiDayWeekRaw.map(r=>r.day), datasets: [{ data: bmiDayWeekRaw.map(r=>r.val), backgroundColor: barColors(bmiDayWeekRaw.map(r=>r.val)), borderRadius: 4 }] }, options: barOpts(bmiDayWeekRaw.map(r=>r.val)) });
 
   const bmiDayYestRaw = buildDayOfWeekDataBmi(true);
-  const bmiDayYestLabels = bmiDayYestRaw.map(r => r.day);
-  const bmiDayYestVals = bmiDayYestRaw.map(r => r.val);
-  charts.cBmiDayYest = new Chart($('chartBmiDayYest'), { type: 'bar', data: { labels: bmiDayYestLabels, datasets: [{ data: bmiDayYestVals, backgroundColor: barColors(bmiDayYestVals), borderRadius: 4 }] }, options: barOpts(bmiDayYestVals) });
+  charts.cBmiDayYest = new Chart($('chartBmiDayYest'), { type: 'bar', data: { labels: bmiDayYestRaw.map(r=>r.day), datasets: [{ data: bmiDayYestRaw.map(r=>r.val), backgroundColor: barColors(bmiDayYestRaw.map(r=>r.val)), borderRadius: 4 }] }, options: barOpts(bmiDayYestRaw.map(r=>r.val)) });
 
+  // 7-day BMI all time
   const { labels: lBmiAll, bmiVals: bmiValsAll } = buildDatasetsBmiAll();
-  const minBmiAll = parseFloat((Math.min(...bmiValsAll.filter(Boolean)) - 1).toFixed(2));
-  const maxBmiAll = parseFloat((Math.max(...bmiValsAll.filter(Boolean)) + 1).toFixed(2));
-  charts.cBmiAll = new Chart($('chartBmiAll'), {
-    type: 'line',
-    data: { labels: lBmiAll, datasets: [
-      { label: '7-day BMI', data: bmiValsAll, borderColor: chartLine(), borderWidth: 1.5, pointRadius: 0, fill: false, tension: 0.2 },
-      { label: '_obese', data: Array(lBmiAll.length).fill(maxBmiAll), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: 30 }, backgroundColor: 'rgba(226,75,74,0.15)' },
-      { label: '_overweight', data: Array(lBmiAll.length).fill(30), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: 25 }, backgroundColor: 'rgba(186,117,23,0.15)' },
-      { label: '_normal', data: Array(lBmiAll.length).fill(25), borderColor: 'transparent', borderWidth: 0, pointRadius: 0, fill: { value: minBmiAll }, backgroundColor: 'rgba(99,153,34,0.15)' }
-    ]},
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { filter: ctx => !ctx.dataset.label.startsWith('_'), callbacks: { label: ctx => `BMI: ${ctx.parsed.y.toFixed(2)}` } } }, scales: { x: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#888', font: { size: 11 }, maxTicksLimit: 8 } }, y: { grid: { color: 'rgba(128,128,128,0.1)' }, ticks: { color: '#888', font: { size: 11 }, callback: v => v.toFixed(1) }, min: minBmiAll, max: maxBmiAll } } }
-  });
+  const validBmiAll = bmiValsAll.filter(Boolean);
+  const minBmiAll = parseFloat((Math.min(...validBmiAll) - 1).toFixed(2));
+  const maxBmiAll = parseFloat((Math.max(...validBmiAll) + 1).toFixed(2));
+  const bmiAllOpts = bmiLineOpts(minBmiAll, maxBmiAll);
+  bmiAllOpts.spanGaps = true;
+  charts.cBmiAll = new Chart($('chartBmiAll'), { type: 'line', data: { labels: lBmiAll, datasets: [
+    ...bmiBands(lBmiAll.length, maxBmiAll),
+    { label: '7-day BMI', data: bmiValsAll, borderColor: chartLine(), borderWidth: 1.5, pointRadius: 0, fill: false, tension: 0.2 }
+  ]}, options: bmiAllOpts });
 
-  // --- DAILY WEIGHT ---
-  const { labels: l7d, datasets: d7d, min: min7d, max: max7d } = buildDatasets7Daily();
-  const allVals7d = [...d7d.filter(d => d.label==='This week'||d.label==='Same day last week').flatMap(d => d.data)].filter(v => v!=null);
-  const adj7dMin = Math.min(...allVals7d);
-  const adj7dMax = Math.max(...allVals7d);
-  charts.c7daily = new Chart($('chart7daily'), { type: 'line', data: { labels: l7d, datasets: d7d }, options: makeChartOptions(adj7dMin, adj7dMax, {}, 0.2) });
+  // ============================================================
+  // SECTION 3: DAILY WEIGHT
+  // ============================================================
 
+  // Daily weight last 7 days
+  const { labels: l7d, datasets: d7d } = buildDatasets7Daily();
+  const vals7d = [...d7d.filter(d => d.label==='This week'||d.label==='Same day last week').flatMap(d => d.data)].filter(v => v!=null && !isNaN(v));
+  const opts7d = makeChartOptions(Math.min(...vals7d), Math.max(...vals7d), {}, 0.2);
+  opts7d.spanGaps = false;
+  charts.c7daily = new Chart($('chart7daily'), { type: 'line', data: { labels: l7d, datasets: d7d }, options: opts7d });
+
+  // Daily weight last 28 days
   const { labels: lD28, datasets: dD28, min: minD28, max: maxD28 } = buildDatasetsDaily28();
-  charts.cDaily28 = new Chart($('chartDaily28'), { type: 'line', data: { labels: lD28, datasets: dD28 }, options: makeChartOptions(minD28, maxD28, {}, 0.4) });
+  const optsD28 = makeChartOptions(minD28, maxD28, {}, 0.4);
+  optsD28.spanGaps = false;
+  charts.cDaily28 = new Chart($('chartDaily28'), { type: 'line', data: { labels: lD28, datasets: dD28 }, options: optsD28 });
 
+  // Daily weight bar charts
   const dayWeekRaw = buildDayOfWeekDataDaily(false);
-  const dayWeekLabels = dayWeekRaw.map(r => r.day);
-  const dayWeekVals = dayWeekRaw.map(r => r.val);
-  charts.cDayWeek = new Chart($('chartDayWeek'), { type: 'bar', data: { labels: dayWeekLabels, datasets: [{ data: dayWeekVals, backgroundColor: barColors(dayWeekVals), borderRadius: 4 }] }, options: barOpts(dayWeekVals) });
+  charts.cDayWeek = new Chart($('chartDayWeek'), { type: 'bar', data: { labels: dayWeekRaw.map(r=>r.day), datasets: [{ data: dayWeekRaw.map(r=>r.val), backgroundColor: barColors(dayWeekRaw.map(r=>r.val)), borderRadius: 4 }] }, options: barOpts(dayWeekRaw.map(r=>r.val)) });
 
   const dayYestRaw = buildDayOfWeekDataDaily(true);
-  const dayYestLabels = dayYestRaw.map(r => r.day);
-  const dayYestVals = dayYestRaw.map(r => r.val);
-  charts.cDayYest = new Chart($('chartDayYest'), { type: 'bar', data: { labels: dayYestLabels, datasets: [{ data: dayYestVals, backgroundColor: barColors(dayYestVals), borderRadius: 4 }] }, options: barOpts(dayYestVals) });
+  charts.cDayYest = new Chart($('chartDayYest'), { type: 'bar', data: { labels: dayYestRaw.map(r=>r.day), datasets: [{ data: dayYestRaw.map(r=>r.val), backgroundColor: barColors(dayYestRaw.map(r=>r.val)), borderRadius: 4 }] }, options: barOpts(dayYestRaw.map(r=>r.val)) });
 
+  // Daily weight all time
   const { labels: lDA, datasets: dDA, min: minDA, max: maxDA } = buildDatasetsDailyAll();
-  charts.cDailyAll = new Chart($('chartDailyAll'), { type: 'line', data: { labels: lDA, datasets: dDA }, options: makeChartOptions(minDA, maxDA) });
+  const optsDA = makeChartOptions(minDA, maxDA);
+  optsDA.spanGaps = false;
+  charts.cDailyAll = new Chart($('chartDailyAll'), { type: 'line', data: { labels: lDA, datasets: dDA }, options: optsDA });
+
+  // ============================================================
+  // SECTION 4: DAILY BMI
+  // ============================================================
+
+  // Daily BMI last 7 days
+  const { labels: lDBmi7, datasets: dDBmi7, min: minDBmi7, max: maxDBmi7 } = buildDatasetsDailyBmi7();
+  const optsDBmi7 = bmiLineOpts(parseFloat((minDBmi7 - 0.1).toFixed(2)), parseFloat((maxDBmi7 + 0.1).toFixed(2)));
+  optsDBmi7.spanGaps = false;
+  charts.cDailyBmi7 = new Chart($('chartDailyBmi7'), { type: 'line', data: { labels: lDBmi7, datasets: dDBmi7 }, options: optsDBmi7 });
+
+  // Daily BMI last 28 days
+  const { labels: lDBmi28, datasets: dDBmi28, min: minDBmi28, max: maxDBmi28 } = buildDatasetsDailyBmi28();
+  const optsDBmi28 = bmiLineOpts(minDBmi28, maxDBmi28);
+  optsDBmi28.spanGaps = false;
+  charts.cDailyBmi28 = new Chart($('chartDailyBmi28'), { type: 'line', data: { labels: lDBmi28, datasets: dDBmi28 }, options: optsDBmi28 });
+
+  // Daily BMI bar charts
+  const dailyBmiDayWeekRaw = buildDayOfWeekDataDailyBmi(false);
+  charts.cDailyBmiDayWeek = new Chart($('chartDailyBmiDayWeek'), { type: 'bar', data: { labels: dailyBmiDayWeekRaw.map(r=>r.day), datasets: [{ data: dailyBmiDayWeekRaw.map(r=>r.val), backgroundColor: barColors(dailyBmiDayWeekRaw.map(r=>r.val)), borderRadius: 4 }] }, options: barOpts(dailyBmiDayWeekRaw.map(r=>r.val)) });
+
+  const dailyBmiDayYestRaw = buildDayOfWeekDataDailyBmi(true);
+  charts.cDailyBmiDayYest = new Chart($('chartDailyBmiDayYest'), { type: 'bar', data: { labels: dailyBmiDayYestRaw.map(r=>r.day), datasets: [{ data: dailyBmiDayYestRaw.map(r=>r.val), backgroundColor: barColors(dailyBmiDayYestRaw.map(r=>r.val)), borderRadius: 4 }] }, options: barOpts(dailyBmiDayYestRaw.map(r=>r.val)) });
+
+  // Daily BMI all time
+  const { labels: lDBmiAll, datasets: dDBmiAll, min: minDBmiAll, max: maxDBmiAll } = buildDatasetsDailyBmiAll();
+  const optsDBmiAll = bmiLineOpts(minDBmiAll, maxDBmiAll);
+  optsDBmiAll.spanGaps = false;
+  charts.cDailyBmiAll = new Chart($('chartDailyBmiAll'), { type: 'line', data: { labels: lDBmiAll, datasets: dDBmiAll }, options: optsDBmiAll });
 
   buildDataTable();
 }
+
 
 function buildDataTable() {
   const recent = [...allData].reverse();
